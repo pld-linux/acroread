@@ -7,22 +7,6 @@ Version:	405
 Release:	3
 License:	distributable
 Group:		X11/Applications/Graphics
-Group(cs):	X11/Aplikace/Grafika
-Group(da):	X11/Programmer/Grafik
-Group(de):	X11/Applikationen/Grafik
-Group(es):	X11/Aplicaciones/Gráficos
-Group(fr):	X11/Applications/Graphiques
-Group(id):	X11/Aplikasi/Grafik
-Group(is):	X11/Forrit/Myndvinnsla
-Group(it):	X11/Applicazioni/Immagini
-Group(ja):	X11/¥¢¥×¥ê¥±¡¼¥·¥ç¥ó/¥°¥é¥Õ¥£¥Ã¥¯¥¹
-Group(no):	X11/Applikasjoner/Grafikk
-Group(pl):	X11/Aplikacje/Grafika
-Group(pt):	X11/Aplicações/Gráficos
-Group(ru):	X11/ğÒÉÌÏÖÅÎÉÑ/çÒÁÆÉËÁ
-Group(sl):	X11/Programi/Grafika
-Group(sv):	X11/Tillämpningar/Grafik
-Group(uk):	X11/ğÒÉËÌÁÄÎ¦ ğÒÏÇÒÁÍÉ/çÒÁÆ¦ËÁ
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/4.x/linux-ar-%{version}.tar.gz
 Patch0:		%{name}-locale.patch
 %define		platform		intellinux
