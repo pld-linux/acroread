@@ -10,7 +10,8 @@ Group:		X11/Applications/Graphics
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
 Source1:	%{name}.desktop
 Patch0:		%{name}-locale.patch
-Exclusivearch:	%{ix86}
+URL:		http://www.adobe.com/products/acrobat/
+ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		mozdir		%{_libdir}/mozilla/plugins
@@ -58,8 +59,8 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{mozdir},%{_applnkdir}
 
 cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{name}
 awk -v INSTDIR=%{_libdir}/%{name}/Reader \
-	'/^install_dir=/ {print "install_dir="INSTDIR ; next} \
-	 {print}' \
+	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
+	{print}' \
 	bin/%{name}.sh > $RPM_BUILD_ROOT%{_bindir}/%{name}
 install Browsers/intellinux/* $RPM_BUILD_ROOT%{mozdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Graphics/Viewers
