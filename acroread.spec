@@ -13,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 Version:	509
-Release:	2%{?with_license_agreement:wla}
+Release:	3%{?with_license_agreement:wla}
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
 # - not distributable on public sites (only linking to adobe.com permitted)
@@ -73,7 +73,7 @@ Wtyczka Mozilli do wy¶wietlania plików PDF (Portable Document Format).
 %setup -q -c
 tar xf %{tar0}
 tar xf %{tar1}
-#%patch0 -p1
+%patch0 -p1
 %endif
 
 %install
@@ -129,10 +129,18 @@ if [ "\$1" = "--with" -a "\$2" = "license_agreement" ]; then
 	if [ "\$?" -ne 0 ]; then
 		exit 2
 	fi
-	RPMNAME=%{base_name}-%{version}-%{release}wla.%{_target_cpu}.rpm
+	RPMNAME1=%{base_name}-%{version}-%{release}wla.%{_target_cpu}.rpm
 	RPMNAME2=mozilla-plugin-%{base_name}-%{version}-%{release}wla.%{_target_cpu}.rpm
-	rpm -U \$RPMDIR/\$RPMNAME \$RPMDIR/\$RPMNAME2 || \
-		echo -e "Install manually the file(s):\n   \$RPMDIR/\$RPMNAME\n   \$RPMDIR/\$RPMNAME2" )
+	echo "Installing \$RPMNAME1"
+	RPMNAMES=\$RPMDIR/\$RPMNAME1
+	if rpm -q --whatprovides mozilla-embedded >/dev/null 2>&1; then
+		RPMNAMES="\$RPMNAMES \$RPMDIR/\$RPMNAME2"
+		echo "Installing \$RPMNAME2"
+	else
+		echo "Not installing \$RPMNAME2"
+	fi
+	rpm -U \$RPMNAMES || \
+		echo -e "Install manually the file(s):\n   \$RPMNAMES" )
 	if [ "\$BACKUP" -eq 1 ]; then
 		if [ -f \$SPECDIR/%{base_name}.spec.prev ]; then
 			mv -f \$SPECDIR/%{base_name}.spec.prev \$SPECDIR/%{base_name}.spec
