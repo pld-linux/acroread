@@ -3,16 +3,16 @@ Summary(pl):	Acrobat Reader - czytnik plikСw PDF
 Summary(ru):	Программа для чтения документов в формате PDF от Adobe
 Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
 Name:		acroread
-Version:	405
-Release:	3
+Version:	505
+Release:	1
 License:	distributable
 Group:		X11/Applications/Graphics
-Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/4.x/linux-ar-%{version}.tar.gz
+Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
 Patch0:		%{name}-locale.patch
 %define		platform		intellinux
-%define		sourcedir		ILINXR.install
-%define		tar0			ILINXR.TAR
-%define		tar1			READ.TAR
+%define		tar0			LINUXRDR.TAR
+%define		tar1			COMMON.TAR
+
 Exclusivearch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -47,7 +47,7 @@ A Mozilla plugin for displaying Acrobat PDF files.
 Wtyczka Mozilli dla wy╤wietlania plikСw Acrobat PDF.
 
 %prep
-%setup -q -n %{sourcedir}
+%setup -q -c
 tar xfv %{tar0}
 tar xfv %{tar1}
 %patch0 -p1
@@ -64,14 +64,14 @@ awk -v INSTDIR=%{_libdir}/%{name}/Reader \
 	bin/%{name}.sh > $RPM_BUILD_ROOT%{_bindir}/%{name}
 cp Browsers/intellinux/* $RPM_BUILD_ROOT%{_libdir}/mozilla/plugins
 
-gzip -9nf LICREAD.TXT INSTGUID.TXT ReadMe
+gzip -9nf LICREAD.TXT README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc LICREAD.TXT.gz INSTGUID.TXT.gz ReadMe.gz
+%doc *.gz
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/Resource
