@@ -24,7 +24,6 @@ Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.t
 %endif
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
-Patch0:		%{base_name}-locale.patch
 URL:		http://www.adobe.com/products/acrobat/
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -71,9 +70,9 @@ Wtyczka Mozilli do wy¶wietlania plików PDF (Portable Document Format).
 %prep
 %if %{with license_agreement}
 %setup -q -c
+cd installers
 tar xf %{tar0}
 tar xf %{tar1}
-%patch0 -p1
 %endif
 
 %install
@@ -171,6 +170,7 @@ install %{PATCH0} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{mozdir}} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
+cd installers
 cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{base_name}
 awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
@@ -201,7 +201,7 @@ package please build it with the following command:
 %attr(755,root,root) %{_bindir}/%{base_name}.install
 %{_datadir}/%{base_name}
 %else
-%doc LICREAD.TXT README
+%doc installers/{LICREAD.TXT,README}
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/%{base_name}
 %{_libdir}/%{base_name}/Resource
