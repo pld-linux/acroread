@@ -3,8 +3,8 @@ Summary(pl):	Acrobat Reader - czytnik plikСw PDF
 Summary(ru):	Программа для чтения документов в формате PDF от Adobe
 Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
 Name:		acroread
-Version:	508
-Release:	2
+Version:	509
+Release:	1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
 # - not distributable on public sites (only linking to adobe.com permitted)
@@ -59,8 +59,8 @@ Wtyczka Mozilli do wy╤wietlania plikСw PDF (Portable Document Format).
 
 %prep
 %setup -q -c
-tar xfv %{tar0}
-tar xfv %{tar1}
+tar xf %{tar0}
+tar xf %{tar1}
 %patch0 -p1
 
 %install
