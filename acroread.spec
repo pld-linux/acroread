@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	70
+Version:	7.0
 Release:	0.1%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -35,7 +35,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		tar0		ILINXR.TAR
 %define		tar1		COMMON.TAR
 
-%define		_noautostrip	.*w.*\\.api
+%define		_noautostrip	'.*\.api'
 %define		_noautoreq	'^lib.*\.so$' '^lib.*\(VERSION\)$'
 
 %description
@@ -213,6 +213,7 @@ package please build it with the following command:
 %{_libdir}/%{base_name}/Reader/help
 %{_libdir}/%{base_name}/Reader/AcroVersion
 %{_libdir}/%{base_name}/Reader/HowTo
+%{_libdir}/%{base_name}/Reader/Legal
 %{_libdir}/%{base_name}/Reader/JavaScripts
 %{_libdir}/%{base_name}/Reader/Messages
 %{_libdir}/%{base_name}/Reader/WebSearch
