@@ -1,13 +1,28 @@
 Summary:	Acrobat Reader
 Summary(pl):	Acrobat Reader - czytnik plikСw PDF
+Summary(ru):	Программа для чтения документов в формате PDF от Adobe
+Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
 Name:		acroread
 Version:	405
-Release:	2
+Release:	3
 License:	distributable
 Group:		X11/Applications/Graphics
+Group(cs):	X11/Aplikace/Grafika
+Group(da):	X11/Programmer/Grafik
 Group(de):	X11/Applikationen/Grafik
+Group(es):	X11/Aplicaciones/GrАficos
+Group(fr):	X11/Applications/Graphiques
+Group(id):	X11/Aplikasi/Grafik
+Group(is):	X11/Forrit/Myndvinnsla
+Group(it):	X11/Applicazioni/Immagini
+Group(ja):	X11/╔╒╔в╔Й╔╠║╪╔╥╔Г╔С/╔╟╔И╔у╔ё╔ц╔╞╔╧
+Group(no):	X11/Applikasjoner/Grafikk
 Group(pl):	X11/Aplikacje/Grafika
 Group(pt):	X11/AplicaГУes/GrАficos
+Group(ru):	X11/Приложения/Графика
+Group(sl):	X11/Programi/Grafika
+Group(sv):	X11/TillДmpningar/Grafik
+Group(uk):	X11/Прикладн╕ Програми/Граф╕ка
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/4.x/linux-ar-%{version}.tar.gz
 Patch0:		%{name}-locale.patch
 %define		platform		intellinux
@@ -25,6 +40,14 @@ Adobe AcrobatReader - pdf browser.
 
 %description -l pl
 Oryginalny program firmy Adobe do przegl╠dania plikСw .pdf.
+
+%description -l ru
+Программа для чтения документов в формате Portable Document Format
+(PDF), сгенерированных Adobe Acrobat'ом.
+
+%description -l uk
+Програма для читання документ╕в у формат╕ Portable Document Format
+(PDF), згенерованих Adobe Acrobat'ом.
 
 %prep
 %setup -q -n %{sourcedir}
