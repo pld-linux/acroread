@@ -20,7 +20,9 @@ URL:		http://www.adobe.com/products/acrobat/
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_prefix		/usr/X11R6
 %define		mozdir		%{_libdir}/mozilla/plugins
+%define		_desktopdir	%{_applnkdir}/Graphics/Viewers
 
 %define		platform	intellinux
 %define		tar0		LINUXRDR.TAR
