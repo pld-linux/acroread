@@ -11,7 +11,7 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
-# NoSource0-md5:	fbf4e174be41987addacca7cf677dd58
+# NoSource0-md5:	53b7ca0fc83ab81214ba82050ce89c64
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 NoSource:	0
@@ -61,7 +61,7 @@ Wtyczka Mozilli do wy¶wietlania plików PDF (Portable Document Format).
 %setup -q -c
 tar xf %{tar0}
 tar xf %{tar1}
-%patch0 -p1
+#%patch0 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
