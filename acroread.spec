@@ -26,6 +26,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		tar0		LINUXRDR.TAR
 %define		tar1		COMMON.TAR
 
+%define		_noautostrip	.*ewh\\.api
+
 %description
 Adobe(R) Reader(R) is free software that lets you view and print
 PDF files (Portable Document Format) on a variety of hardware and
