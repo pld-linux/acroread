@@ -3,12 +3,12 @@ Summary(pl):	Acrobat Reader - czytnik plikСw PDF
 Summary(ru):	Программа для чтения документов в формате PDF от Adobe
 Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
 Name:		acroread
-Version:	506
-Release:	3
+Version:	507
+Release:	1
 License:	distributable
 Group:		X11/Applications/Graphics
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
-# Source0-md5: c5ca1f2fac7f2530d85de18ee6fffc26
+# Source0-md5:	25f0ab387ebed3bf63ca24962ffcf9fa
 Source1:	%{name}.desktop
 Patch0:		%{name}-locale.patch
 URL:		http://www.adobe.com/products/acrobat/
