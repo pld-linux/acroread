@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Acrobat Reader
+Name[pl]=Acrobat Reader
+Comment=Acrobat Reader
+Comment[pl]=Przegladarka plikow pdf
+Icon=acroread.png
+Exec=acroread
+Terminal=0
+Type=Application
+
+# vi: encoding=utf-8
