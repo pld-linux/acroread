@@ -5,6 +5,7 @@ Version:	405
 Release:	1
 Copyright:	distributable
 Group:		X11/Applications/Graphics
+Group(de):	X11/Applikationen/Grafik
 Group(pl):	X11/Aplikacje/Grafika
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/4.x/linux-ar-%{version}.tar.gz
 %define		platform		intellinux
