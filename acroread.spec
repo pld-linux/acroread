@@ -5,11 +5,15 @@ Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
 Name:		acroread
 Version:	507
 Release:	1
-License:	distributable
+License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
+# in short:
+# - not distributable on public sites (only linking to adobe.com permitted)
+# - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
-# Source0-md5:	25f0ab387ebed3bf63ca24962ffcf9fa
+# NoSource0-md5:	25f0ab387ebed3bf63ca24962ffcf9fa
 Source1:	%{name}.desktop
+NoSource:	0
 Patch0:		%{name}-locale.patch
 URL:		http://www.adobe.com/products/acrobat/
 ExclusiveArch:	%{ix86}
