@@ -4,10 +4,11 @@ Summary(ru):	Программа для чтения документов в формате PDF от Adobe
 Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
 Name:		acroread
 Version:	506
-Release:	1
+Release:	2
 License:	distributable
 Group:		X11/Applications/Graphics
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
+Source1:	%{name}.desktop
 Patch0:		%{name}-locale.patch
 Exclusivearch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -55,7 +56,7 @@ tar xfv %{tar1}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{mozdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{mozdir},%{_applnkdir}/Graphics/Viewers}
 
 cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{name}
 awk -v INSTDIR=%{_libdir}/%{name}/Reader \
@@ -63,6 +64,7 @@ awk -v INSTDIR=%{_libdir}/%{name}/Reader \
 	 {print}' \
 	bin/%{name}.sh > $RPM_BUILD_ROOT%{_bindir}/%{name}
 install Browsers/intellinux/* $RPM_BUILD_ROOT%{mozdir}
+install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Graphics/Viewers
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -86,6 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/plug_ins
 %attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/bin
 %attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/lib
+%{_applnkdir}/Graphics/Viewers/*.desktop
 
 %files -n mozilla-plugin-%{name}
 %defattr(644,root,root,755)
