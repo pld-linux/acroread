@@ -12,8 +12,8 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	509
-Release:	3%{?with_license_agreement:wla}
+Version:	5010
+Release:	1%{?with_license_agreement:wla}
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
 # - not distributable on public sites (only linking to adobe.com permitted)
