@@ -8,6 +8,7 @@ Release:	3
 License:	distributable
 Group:		X11/Applications/Graphics
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
+# Source0-md5: c5ca1f2fac7f2530d85de18ee6fffc26
 Source1:	%{name}.desktop
 Patch0:		%{name}-locale.patch
 URL:		http://www.adobe.com/products/acrobat/
