@@ -7,5 +7,5 @@ Icon=acroread.png
 Exec=acroread
 Terminal=0
 Type=Application
-
+Categories=Graphics;X-Viewer
 # vi: encoding=utf-8
