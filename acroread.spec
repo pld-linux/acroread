@@ -1,21 +1,30 @@
+#
+# Conditional build:
+%bcond_with	license_agreement	# generates package
+#
 Summary:	Acrobat Reader
 Summary(pl):	Acrobat Reader - czytnik plikСw PDF
 Summary(ru):	Программа для чтения документов в формате PDF от Adobe
 Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
-Name:		acroread
+%define		base_name	acroread
+%if %{with license_agreement}
+Name:		%{base_name}
+%else
+Name:		%{base_name}-installer
+%endif
 Version:	509
-Release:	1
+Release:	2%{?with_license_agreement:wla}
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
 # - not distributable on public sites (only linking to adobe.com permitted)
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
+%if %{with license_agreement}
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
-# NoSource0-md5:	53b7ca0fc83ab81214ba82050ce89c64
-Source1:	%{name}.desktop
-Source2:	%{name}.png
-NoSource:	0
-Patch0:		%{name}-locale.patch
+%endif
+Source1:	%{base_name}.desktop
+Source2:	%{base_name}.png
+Patch0:		%{base_name}-locale.patch
 URL:		http://www.adobe.com/products/acrobat/
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -46,64 +55,165 @@ sprzЙtowych oraz rС©nych systemach operacyjnych.
 Програма для читання документ╕в у формат╕ Portable Document Format
 (PDF), згенерованих Adobe Acrobat'ом.
 
-%package -n mozilla-plugin-%{name}
+%package -n mozilla-plugin-%{base_name}
 Summary:	Mozilla PDF plugin
 Summary(pl):	Wtyczka PDF do Mozilli
 Group:		X11/Applications
 Prereq:		mozilla-embedded
-Requires:	%{name} = %{version}
+Requires:	%{base_name} = %{version}
 
-%description -n mozilla-plugin-%{name}
+%description -n mozilla-plugin-%{base_name}
 A Mozilla plugin for displaying PDF (Portable Document Format) files.
 
-%description -n mozilla-plugin-%{name} -l pl
+%description -n mozilla-plugin-%{base_name} -l pl
 Wtyczka Mozilli do wy╤wietlania plikСw PDF (Portable Document Format).
 
 %prep
+%if %{with license_agreement}
 %setup -q -c
 tar xf %{tar0}
 tar xf %{tar1}
 #%patch0 -p1
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{mozdir}} \
+%if ! %{with license_agreement}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{base_name}}
+
+cat <<EOF >$RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
+#!/bin/sh
+if [ "\$1" = "--with" -a "\$2" = "license_agreement" ]; then
+	TMPDIR=\`rpm --eval "%%{tmpdir}"\`; export TMPDIR
+	SPECDIR=\`rpm --eval "%%{_specdir}"\`; export SPECDIR
+	SRPMDIR=\`rpm --eval "%%{_srcrpmdir}"\`; export SRPMDIR
+	SOURCEDIR=\`rpm --eval "%%{_sourcedir}"\`; export SOURCEDIR
+	BUILDDIR=\`rpm --eval "%%{_builddir}"\`; export BUILDDIR
+	RPMDIR=\`rpm --eval "%%{_rpmdir}"\`; export RPMDIR
+	BACKUP=0
+	mkdir -p \$TMPDIR \$SPECDIR \$SRPMDIR \$RPMDIR \$SRPMDIR \$SOURCEDIR \$BUILDDIR
+	if [ -f \$SPECDIR/%{base_name}.spec ]; then
+		BACKUP=1
+		mv -f \$SPECDIR/%{base_name}.spec \$SPECDIR/%{base_name}.spec.prev
+	fi
+	for i in %{base_name}.desktop %{base_name}.png %{base_name}-locale.patch; do
+		if [ -f \$SOURCEDIR/\$i ]; then
+			mv -f \$SOURCEDIR/\$i \$SOURCEDIR/\$i.prev
+			BACKUP=1
+		fi
+	done
+	if echo "\$3" | grep '\.src\.rpm$' >/dev/null; then
+		( cd \$SRPMDIR
+		if echo "\$3" | grep '://' >/dev/null; then
+			wget --passive-ftp -t0 "\$3"
+		else
+			cp -f "\$3" .
+		fi
+		rpm2cpio \`basename "\$3"\` | ( cd \$TMPDIR; cpio -i %{base_name}.spec )
+		for i in %{base_name}.desktop %{base_name}.png %{base_name}-locale.patch; do
+			rpm2cpio \$i | ( cd \$TMPDIR; cpio -i \$i )
+		done )
+		cp -i \$TMPDIR/%{base_name}.spec \$SPECDIR/%{base_name}.spec \
+			|| exit 1
+		for i in %{base_name}.desktop %{base_name}.png %{base_name}-locale.patch; do
+			cp -i \$TMPDIR/\$i \$SOURCEDIR/\$i || exit 1
+		done
+	else
+		cp -i "\$3" \$SPECDIR || exit 1
+		for i in %{base_name}.desktop %{base_name}.png %{base_name}-locale.patch; do
+			cp -i %{_datadir}/%{base_name}/\$i \$SOURCEDIR/\$i || exit 1
+		done
+	fi
+	( cd \$SPECDIR
+	%{_bindir}/builder -nc -ncs --with license_agreement --opts --target=%{_target_cpu} %{base_name}.spec
+	if [ "\$?" -ne 0 ]; then
+		exit 2
+	fi
+	RPMNAME=%{base_name}-%{version}-%{release}wla.%{_target_cpu}.rpm
+	RPMNAME2=mozilla-plugin-%{base_name}-%{version}-%{release}wla.%{_target_cpu}.rpm
+	rpm -U \$RPMDIR/\$RPMNAME \$RPMDIR/\$RPMNAME2 || \
+		echo -e "Install manually the file(s):\n   \$RPMDIR/\$RPMNAME\n   \$RPMDIR/\$RPMNAME2" )
+	if [ "\$BACKUP" -eq 1 ]; then
+		if [ -f \$SPECDIR/%{base_name}.spec.prev ]; then
+			mv -f \$SPECDIR/%{base_name}.spec.prev \$SPECDIR/%{base_name}.spec
+		fi
+		for i in %{base_name}.desktop %{base_name}.png %{base_name}-locale.patch; do
+			if [ -f \$SOURCEDIR/\$i.prev ]; then
+				mv -f \$SOURCEDIR/\$i.prev \$SOURCEDIR/\$i
+			fi
+		done
+	fi
+else
+	echo "
+License issues made us not to include inherent files into
+this package by default. If you want to create full working
+package please build it with the following command:
+
+\$0 --with license_agreement %{_datadir}/%{base_name}/%{base_name}.spec
+"
+fi
+EOF
+
+install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{PATCH0} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+
+%else
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{mozdir}} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
-cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{name}
-awk -v INSTDIR=%{_libdir}/%{name}/Reader \
+cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{base_name}
+awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
 	{print}' \
-	bin/%{name}.sh > $RPM_BUILD_ROOT%{_bindir}/%{name}
+	bin/%{base_name}.sh > $RPM_BUILD_ROOT%{_bindir}/%{base_name}
 install Browsers/intellinux/* $RPM_BUILD_ROOT%{mozdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%if ! %{with license_agreement}
+%pre
+echo "
+License issues made us not to include inherent files into
+this package by default. If you want to create full working
+package please build it with the following command:
+
+%{base_name}.install --with license_agreement %{_datadir}/%{base_name}/%{base_name}.spec
+"
+%endif
+
 %files
 %defattr(644,root,root,755)
+%if ! %{with license_agreement}
+%attr(755,root,root) %{_bindir}/%{base_name}.install
+%{_datadir}/%{base_name}
+%else
 %doc LICREAD.TXT README
 %attr(755,root,root) %{_bindir}/*
-%dir %{_libdir}/%{name}
-%{_libdir}/%{name}/Resource
+%dir %{_libdir}/%{base_name}
+%{_libdir}/%{base_name}/Resource
 
-%dir %{_libdir}/%{name}/Reader
-%{_libdir}/%{name}/Reader/help
-%{_libdir}/%{name}/Reader/res
-%{_libdir}/%{name}/Reader/AcroVersion
-%{_libdir}/%{name}/Reader/*.pdf
-%dir %{_libdir}/%{name}/Reader/%{platform}
-%{_libdir}/%{name}/Reader/%{platform}/app-defaults
-%{_libdir}/%{name}/Reader/%{platform}/fonts
-%{_libdir}/%{name}/Reader/%{platform}/res
-%attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/plug_ins
-%attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/bin
-%attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/lib
+%dir %{_libdir}/%{base_name}/Reader
+%{_libdir}/%{base_name}/Reader/help
+%{_libdir}/%{base_name}/Reader/res
+%{_libdir}/%{base_name}/Reader/AcroVersion
+%{_libdir}/%{base_name}/Reader/*.pdf
+%dir %{_libdir}/%{base_name}/Reader/%{platform}
+%{_libdir}/%{base_name}/Reader/%{platform}/app-defaults
+%{_libdir}/%{base_name}/Reader/%{platform}/fonts
+%{_libdir}/%{base_name}/Reader/%{platform}/res
+%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins
+%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/bin
+%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/lib
 %{_desktopdir}/acroread.desktop
 %{_pixmapsdir}/*
 
-%files -n mozilla-plugin-%{name}
+%files -n mozilla-plugin-%{base_name}
 %defattr(644,root,root,755)
 %attr(755,root,root) %{mozdir}/*
+%endif
