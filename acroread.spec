@@ -14,6 +14,7 @@ Name:		%{base_name}-installer
 %endif
 Version:	70
 Release:	0.1%{?with_license_agreement:wla}
+Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
 # - not distributable on public sites (only linking to adobe.com permitted)
