@@ -9,15 +9,16 @@ License:	distributable
 Group:		X11/Applications/Graphics
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
 Patch0:		%{name}-locale.patch
-%define		platform		intellinux
-%define		tar0			LINUXRDR.TAR
-%define		tar1			COMMON.TAR
-
 Exclusivearch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
+%define		mozdir		%{_libdir}/mozilla/plugins
+
+%define		platform	intellinux
+%define		tar0		LINUXRDR.TAR
+%define		tar1		COMMON.TAR
 
 %description
 Adobe AcrobatReader - pdf browser.
@@ -54,24 +55,21 @@ tar xfv %{tar1}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_bindir}
-install -d $RPM_BUILD_ROOT%{_libdir}/{%{name},mozilla/plugins}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{mozdir}}
 
 cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{name}
 awk -v INSTDIR=%{_libdir}/%{name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR ; next} \
 	 {print}' \
 	bin/%{name}.sh > $RPM_BUILD_ROOT%{_bindir}/%{name}
-cp Browsers/intellinux/* $RPM_BUILD_ROOT%{_libdir}/mozilla/plugins
-
-gzip -9nf LICREAD.TXT README
+install Browsers/intellinux/* $RPM_BUILD_ROOT%{mozdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz
+%doc LICREAD.TXT README
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/Resource
@@ -91,4 +89,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n mozilla-plugin-%{name}
 %defattr(644,root,root,755)
-%{_libdir}/mozilla/plugins/*
+%attr(755,root,root) %{mozdir}/*
