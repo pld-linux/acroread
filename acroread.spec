@@ -12,7 +12,7 @@ Source:		ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/4.x/linux-ar-%{version
 %define		tar0			ILINXR.TAR
 %define		tar1			READ.TAR
 Exclusivearch:  %{ix86}
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Adobe Acrobatreader - pdf browser
