@@ -3,7 +3,7 @@ Summary(pl):	Acrobat Reader - czytnik plikСw PDF
 Summary(ru):	Программа для чтения документов в формате PDF от Adobe
 Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
 Name:		acroread
-Version:	505
+Version:	506
 Release:	1
 License:	distributable
 Group:		X11/Applications/Graphics
