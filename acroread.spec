@@ -26,10 +26,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		tar1		COMMON.TAR
 
 %description
-Adobe Acrobat Reader - pdf browser.
+Adobe(R) Reader(R) is free software that lets you view and print
+PDF files (Portable Document Format) on a variety of hardware and 
+operating system platforms.
 
 %description -l pl
-Oryginalny program firmy Adobe do przegl±dania plików .pdf.
+Adobe(R) Reader(R) jest darmowym oprogramowaniem umo¿liwiaj±cym ogl±danie
+oraz drukowanie plików PDF (Portable Document Format) na ró¿nych platformach
+sprzêtowych oraz ró¿nych systemach operacyjnych.
 
 %description -l ru
 ğÒÏÇÒÁÍÍÁ ÄÌÑ ŞÔÅÎÉÑ ÄÏËÕÍÅÎÔÏ× × ÆÏÒÍÁÔÅ Portable Document Format
@@ -47,10 +51,10 @@ Requires:	%{name} = %{version}
 Prereq:		mozilla-embedded
 
 %description -n mozilla-plugin-%{name}
-A Mozilla plugin for displaying Acrobat PDF files.
+A Mozilla plugin for displaying PDF (Portable Document Format) files.
 
 %description -n mozilla-plugin-%{name} -l pl
-Wtyczka Mozilli dla wy¶wietlania plików Acrobat PDF.
+Wtyczka Mozilli do wy¶wietlania plików PDF (Portable Document Format).
 
 %prep
 %setup -q -c
