@@ -6,6 +6,6 @@
  
 +LC_ALL=C; LANG=C; export LC_ALL LANG
 +
- ver=5.0.7
+ ver=5.0.8
  install_dir=REPLACE_ME
  
