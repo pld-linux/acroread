@@ -20,7 +20,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		tar1		COMMON.TAR
 
 %description
-Adobe AcrobatReader - pdf browser.
+Adobe Acrobat Reader - pdf browser.
 
 %description -l pl
 Oryginalny program firmy Adobe do przegl±dania plików .pdf.
