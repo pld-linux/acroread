@@ -13,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 Version:	5010
-Release:	1%{?with_license_agreement:wla}
+Release:	2%{?with_license_agreement:wla}
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
 # - not distributable on public sites (only linking to adobe.com permitted)
@@ -109,17 +109,17 @@ if [ "\$1" = "--with" -a "\$2" = "license_agreement" ]; then
 			cp -f "\$3" .
 		fi
 		rpm2cpio \`basename "\$3"\` | ( cd \$TMPDIR; cpio -i %{base_name}.spec )
-		for i in %{base_name}.desktop %{base_name}.png %{base_name}-locale.patch; do
+		for i in %{base_name}.desktop %{base_name}.png; do
 			rpm2cpio \$i | ( cd \$TMPDIR; cpio -i \$i )
 		done )
 		cp -i \$TMPDIR/%{base_name}.spec \$SPECDIR/%{base_name}.spec \
 			|| exit 1
-		for i in %{base_name}.desktop %{base_name}.png %{base_name}-locale.patch; do
+		for i in %{base_name}.desktop %{base_name}.png; do
 			cp -i \$TMPDIR/\$i \$SOURCEDIR/\$i || exit 1
 		done
 	else
 		cp -i "\$3" \$SPECDIR || exit 1
-		for i in %{base_name}.desktop %{base_name}.png %{base_name}-locale.patch; do
+		for i in %{base_name}.desktop %{base_name}.png; do
 			cp -i %{_datadir}/%{base_name}/\$i \$SOURCEDIR/\$i || exit 1
 		done
 	fi
