@@ -3,7 +3,7 @@ Summary(pl):	Acrobatreader
 Name:		acroread
 Version:	405
 Release:	2
-Copyright:	distributable
+License:	distributable
 Group:		X11/Applications/Graphics
 Group(de):	X11/Applikationen/Grafik
 Group(pl):	X11/Aplikacje/Grafika
