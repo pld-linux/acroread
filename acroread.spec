@@ -12,15 +12,15 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	5010
-Release:	2%{?with_license_agreement:wla}
+Version:	70
+Release:	0.1%{?with_license_agreement:wla}
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
 # - not distributable on public sites (only linking to adobe.com permitted)
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
+Source0:	AdbeRdr70_linux_enu.0.beta1.tar.bz2
 %endif
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
@@ -31,10 +31,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		mozdir		%{_libdir}/mozilla/plugins
 
 %define		platform	intellinux
-%define		tar0		LINUXRDR.TAR
+%define		tar0		ILINXR.TAR
 %define		tar1		COMMON.TAR
 
 %define		_noautostrip	.*w.*\\.api
+%define		_noautoreq	'^lib.*\.so$' '^lib.*\(VERSION\)$'
 
 %description
 Adobe(R) Reader(R) is free software that lets you view and print
@@ -70,7 +71,7 @@ Wtyczka Mozilli do wy¶wietlania plików PDF (Portable Document Format).
 %prep
 %if %{with license_agreement}
 %setup -q -c
-cd installers
+cd AdobeReader
 tar xf %{tar0}
 tar xf %{tar1}
 %endif
@@ -169,15 +170,17 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{mozdir}} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
-cd installers
+cd AdobeReader
 cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{base_name}
 awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
 	{print}' \
 	bin/%{base_name}.sh > $RPM_BUILD_ROOT%{_bindir}/%{base_name}
-install Browsers/intellinux/* $RPM_BUILD_ROOT%{mozdir}
+install Browser/intellinux/* $RPM_BUILD_ROOT%{mozdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+
+chmod a-x $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/*.so.*
 %endif
 
 %clean
@@ -200,20 +203,22 @@ package please build it with the following command:
 %attr(755,root,root) %{_bindir}/%{base_name}.install
 %{_datadir}/%{base_name}
 %else
-%doc installers/{LICREAD.TXT,README}
+%doc AdobeReader/{LICREAD.TXT,README}
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/%{base_name}
 %{_libdir}/%{base_name}/Resource
 
 %dir %{_libdir}/%{base_name}/Reader
 %{_libdir}/%{base_name}/Reader/help
-%{_libdir}/%{base_name}/Reader/res
 %{_libdir}/%{base_name}/Reader/AcroVersion
-%{_libdir}/%{base_name}/Reader/*.pdf
+%{_libdir}/%{base_name}/Reader/HowTo
+%{_libdir}/%{base_name}/Reader/JavaScripts
+%{_libdir}/%{base_name}/Reader/Messages
+%{_libdir}/%{base_name}/Reader/WebSearch
 %dir %{_libdir}/%{base_name}/Reader/%{platform}
-%{_libdir}/%{base_name}/Reader/%{platform}/app-defaults
 %{_libdir}/%{base_name}/Reader/%{platform}/fonts
 %{_libdir}/%{base_name}/Reader/%{platform}/res
+%{_libdir}/%{base_name}/Reader/%{platform}/SPPlugins
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/bin
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/lib
