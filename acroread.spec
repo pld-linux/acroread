@@ -19,9 +19,11 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # in short:
 # - not distributable on public sites (only linking to adobe.com permitted)
 # - distribution on CD requires signing Distribution Agreement (see URL above)
+#
+# download it manually from: ftp://ftp.adobe.com/pub/adobe/reader/unix/7x/7.0/enu/
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	AdbeRdr70_linux_enu.0.beta1.tar.bz2
+Source0:	AdbeRdr70_linux_enu.tar.gz
 %endif
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
@@ -176,7 +178,7 @@ cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{base_name}
 awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
 	{print}' \
-	bin/%{base_name}.sh > $RPM_BUILD_ROOT%{_bindir}/%{base_name}
+	bin/%{base_name} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}
 install Browser/intellinux/* $RPM_BUILD_ROOT%{mozdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
@@ -218,7 +220,7 @@ package please build it with the following command:
 %{_libdir}/%{base_name}/Reader/Messages
 %{_libdir}/%{base_name}/Reader/WebSearch
 %dir %{_libdir}/%{base_name}/Reader/%{platform}
-%{_libdir}/%{base_name}/Reader/%{platform}/fonts
+#%{_libdir}/%{base_name}/Reader/%{platform}/fonts
 %{_libdir}/%{base_name}/Reader/%{platform}/res
 %{_libdir}/%{base_name}/Reader/%{platform}/SPPlugins
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins
