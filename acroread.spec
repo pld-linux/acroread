@@ -1,5 +1,5 @@
-Summary:	Acrobatreader
-Summary(pl):	Acrobatreader
+Summary:	Acrobat Reader
+Summary(pl):	Acrobat Reader - czytnik plików PDF
 Name:		acroread
 Version:	405
 Release:	2
@@ -7,6 +7,7 @@ License:	distributable
 Group:		X11/Applications/Graphics
 Group(de):	X11/Applikationen/Grafik
 Group(pl):	X11/Aplikacje/Grafika
+Group(pt):	X11/Aplicações/Gráficos
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/4.x/linux-ar-%{version}.tar.gz
 Patch0:		%{name}-locale.patch
 %define		platform		intellinux
@@ -20,10 +21,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_mandir		%{_prefix}/man
 
 %description
-Adobe Acrobatreader - pdf browser
+Adobe AcrobatReader - pdf browser.
 
 %description -l pl
-Oryginalny program firmy Adobe do przegl±dania plików .pdf
+Oryginalny program firmy Adobe do przegl±dania plików .pdf.
 
 %prep
 %setup -q -n %{sourcedir}
