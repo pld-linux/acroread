@@ -7,6 +7,6 @@ diff -Naur ILINXR.install/bin/acroread.sh ILINXR.install-p/bin/acroread.sh
  
 +LC_ALL=C; LANG=C; export LC_ALL LANG
 +
- ver=4.0
+ ver=5.0
  install_dir=REPLACE_ME
  
