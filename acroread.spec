@@ -2,12 +2,13 @@ Summary:	Acrobatreader
 Summary(pl):	Acrobatreader
 Name:		acroread
 Version:	405
-Release:	1
+Release:	2
 Copyright:	distributable
 Group:		X11/Applications/Graphics
 Group(de):	X11/Applikationen/Grafik
 Group(pl):	X11/Aplikacje/Grafika
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/4.x/linux-ar-%{version}.tar.gz
+Patch0:		%{name}-locale.patch
 %define		platform		intellinux
 %define		sourcedir		ILINXR.install
 %define		tar0			ILINXR.TAR
@@ -28,6 +29,7 @@ Oryginalny program firmy Adobe do przegl±dania plików .pdf
 %setup -q -n %{sourcedir}
 tar xfv %{tar0}
 tar xfv %{tar1}
+%patch0 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
