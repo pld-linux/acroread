@@ -2,11 +2,11 @@
 Encoding=UTF-8
 Name=Acrobat Reader
 Name[pl]=Acrobat Reader
-Comment=Acrobat Reader
+Comment=pdf file viewer
 Comment[pl]=Przegladarka plikow pdf
 Icon=acroread.png
 Exec=acroread
 Terminal=false
 Type=Application
-Categories=Graphics;X-Viewer
+Categories=Graphics;Viewer;
 # vi: encoding=utf-8
