@@ -3,7 +3,7 @@ Summary(pl):	Acrobat Reader - czytnik plikСw PDF
 Summary(ru):	Программа для чтения документов в формате PDF от Adobe
 Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
 Name:		acroread
-Version:	507
+Version:	508
 Release:	1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
@@ -11,7 +11,7 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
-# NoSource0-md5:	25f0ab387ebed3bf63ca24962ffcf9fa
+# NoSource0-md5:	fbf4e174be41987addacca7cf677dd58
 Source1:	%{name}.desktop
 NoSource:	0
 Patch0:		%{name}-locale.patch
@@ -47,8 +47,8 @@ sprzЙtowych oraz rС©nych systemach operacyjnych.
 Summary:	Mozilla PDF plugin
 Summary(pl):	Wtyczka PDF do Mozilli
 Group:		X11/Applications
-Requires:	%{name} = %{version}
 Prereq:		mozilla-embedded
+Requires:	%{name} = %{version}
 
 %description -n mozilla-plugin-%{name}
 A Mozilla plugin for displaying PDF (Portable Document Format) files.
