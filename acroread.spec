@@ -66,7 +66,7 @@ tar xfv %{tar1}
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{mozdir}} \
-	$RPM_BUILD_ROOT{%{_applnkdir}/Graphics/Viewers,%{_pixmapsdir}}
+	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
 cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{name}
 awk -v INSTDIR=%{_libdir}/%{name}/Reader \
@@ -74,7 +74,7 @@ awk -v INSTDIR=%{_libdir}/%{name}/Reader \
 	{print}' \
 	bin/%{name}.sh > $RPM_BUILD_ROOT%{_bindir}/%{name}
 install Browsers/intellinux/* $RPM_BUILD_ROOT%{mozdir}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Graphics/Viewers
+install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %clean
@@ -99,7 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/plug_ins
 %attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/bin
 %attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/lib
-%{_applnkdir}/Graphics/Viewers/*.desktop
+%{_desktopdir}/acroread.desktop
 %{_pixmapsdir}/*
 
 %files -n mozilla-plugin-%{name}
