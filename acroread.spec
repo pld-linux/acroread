@@ -33,6 +33,19 @@ Oryginalny program firmy Adobe do przegl±dania plików .pdf.
 ðÒÏÇÒÁÍÁ ÄÌÑ ÞÉÔÁÎÎÑ ÄÏËÕÍÅÎÔ¦× Õ ÆÏÒÍÁÔ¦ Portable Document Format
 (PDF), ÚÇÅÎÅÒÏ×ÁÎÉÈ Adobe Acrobat'ÏÍ.
 
+%package -n mozilla-plugin-%{name}
+Summary:	Mozilla PDF plugin
+Summary(pl):	Wtyczka PDF do Mozilli
+Group:		X11/Applications
+Requires:	%{name} = %{version}
+Prereq:		mozilla-embedded
+
+%description -n mozilla-plugin-%{name}
+A Mozilla plugin for displaying Acrobat PDF files.
+
+%description -n mozilla-plugin-%{name} -l pl
+Wtyczka Mozilli dla wy¶wietlania plików Acrobat PDF.
+
 %prep
 %setup -q -n %{sourcedir}
 tar xfv %{tar0}
@@ -42,13 +55,14 @@ tar xfv %{tar1}
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_bindir}
-install -d $RPM_BUILD_ROOT%{_libdir}/%{name}
+install -d $RPM_BUILD_ROOT%{_libdir}/{%{name},mozilla/plugins}
 
-cp -a Browsers Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{name}
+cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{name}
 awk -v INSTDIR=%{_libdir}/%{name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR ; next} \
 	 {print}' \
 	bin/%{name}.sh > $RPM_BUILD_ROOT%{_bindir}/%{name}
+cp Browsers/intellinux/* $RPM_BUILD_ROOT%{_libdir}/mozilla/plugins
 
 gzip -9nf LICREAD.TXT INSTGUID.TXT ReadMe
 
@@ -60,7 +74,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc LICREAD.TXT.gz INSTGUID.TXT.gz ReadMe.gz
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/Browsers
 %{_libdir}/%{name}/Resource
 
 %dir %{_libdir}/%{name}/Reader
@@ -75,3 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/plug_ins
 %attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/bin
 %attr(755,root,root) %{_libdir}/%{name}/Reader/%{platform}/lib
+
+%files -n mozilla-plugin-%{name}
+%defattr(644,root,root,755)
+%{_libdir}/mozilla/plugins/*
