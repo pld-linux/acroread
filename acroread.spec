@@ -61,7 +61,7 @@ Summary:	Mozilla PDF plugin
 Summary(pl):	Wtyczka PDF do Mozilli
 Group:		X11/Applications
 Prereq:		mozilla-embedded
-Requires:	%{base_name} = %{version}
+Requires:	%{base_name} = %{epoch}:%{version}
 
 %description -n mozilla-plugin-%{base_name}
 A Mozilla plugin for displaying PDF (Portable Document Format) files.
