@@ -1,0 +1,12 @@
+diff -Naur ILINXR.install/bin/acroread.sh ILINXR.install-p/bin/acroread.sh
+--- ILINXR.install/bin/acroread.sh	Thu Jan 27 01:26:29 2000
++++ ILINXR.install-p/bin/acroread.sh	Mon Oct  1 19:23:01 2001
+@@ -1,6 +1,8 @@
+ #!/bin/sh
+ #
+ 
++LC_ALL=C; LANG=C; export LC_ALL LANG
++
+ ver=4.0
+ install_dir=REPLACE_ME
+ 
