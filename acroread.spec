@@ -27,7 +27,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Adobe(R) Reader(R) is free software that lets you view and print
-PDF files (Portable Document Format) on a variety of hardware and 
+PDF files (Portable Document Format) on a variety of hardware and
 operating system platforms.
 
 %description -l pl
