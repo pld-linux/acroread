@@ -4,7 +4,7 @@ Summary(ru):	Программа для чтения документов в формате PDF от Adobe
 Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
 Name:		acroread
 Version:	506
-Release:	2
+Release:	3
 License:	distributable
 Group:		X11/Applications/Graphics
 Source0:	ftp://ftp.adobe.com/pub/adobe/acrobatreader/unix/5.x/linux-%{version}.tar.gz
@@ -13,8 +13,6 @@ Patch0:		%{name}-locale.patch
 Exclusivearch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
-%define		_mandir		%{_prefix}/man
 %define		mozdir		%{_libdir}/mozilla/plugins
 
 %define		platform	intellinux
