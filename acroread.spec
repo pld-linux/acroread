@@ -13,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 Version:	7.0
-Release:	1%{?with_license_agreement:wla}
+Release:	2%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
@@ -35,7 +35,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		tar0		ILINXR.TAR
 %define		tar1		COMMON.TAR
 
-%define		_noautostrip	'.*\.api'
+%define		_noautostrip	.*\.api
 %define		_noautoreq	'^lib.*\.so$' '^lib.*\(VERSION\)$'
 
 %description
