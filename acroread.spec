@@ -13,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 Version:	7.0
-Release:	2%{?with_license_agreement:wla}
+Release:	3%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
@@ -26,6 +26,7 @@ Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/7x/7.0/enu/AdbeRdr70_linux_en
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
+%{?with_license_agreement:Requires:	openldap-libs >= 2.2}
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -177,10 +178,12 @@ awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
 	{print}' \
 	bin/%{base_name} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}
-install Browser/intellinux/* $RPM_BUILD_ROOT%{mozdir}
+install Browser/%{platform}/* $RPM_BUILD_ROOT%{mozdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
+ln -sf /usr/lib/liblber-2.2.so.7 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/liblber.so
+ln -sf /usr/lib/libldap-2.2.so.7 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/libldap.so
 ln -sf /usr/share/ssl/ca-bundle.crt $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Cert/curl-ca-bundle.crt
 
 chmod a-x $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/*.so.*
@@ -210,7 +213,6 @@ package please build it with the following command:
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/%{base_name}
 %{_libdir}/%{base_name}/Resource
-
 %dir %{_libdir}/%{base_name}/Reader
 %{_libdir}/%{base_name}/Reader/help
 %{_libdir}/%{base_name}/Reader/AcroVersion
@@ -222,12 +224,14 @@ package please build it with the following command:
 %{_libdir}/%{base_name}/Reader/Messages
 %{_libdir}/%{base_name}/Reader/WebSearch
 %dir %{_libdir}/%{base_name}/Reader/%{platform}
-#%{_libdir}/%{base_name}/Reader/%{platform}/fonts
-%{_libdir}/%{base_name}/Reader/%{platform}/res
-%{_libdir}/%{base_name}/Reader/%{platform}/SPPlugins
-%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins
+%dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins
+%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/SPPlugins
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/bin
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/lib
+%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/*.api
+%{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/AcroForm
+%{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Annotations
+%{_libdir}/%{base_name}/Reader/%{platform}/res
 %{_desktopdir}/acroread.desktop
 %{_pixmapsdir}/*
 
