@@ -12,8 +12,8 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	7.0
-Release:	3%{?with_license_agreement:wla}
+Version:	7.0.1
+Release:	1%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
@@ -21,7 +21,7 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/7x/7.0/enu/AdbeRdr70_linux_enu.tar.gz
+Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/7.0/enu/AdbeRdr701_linux_enu.tar.gz
 %endif
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
