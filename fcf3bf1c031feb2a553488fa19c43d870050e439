@@ -1,0 +1,2 @@
+- new %doc
+- +x for nppdf.so (but it doesn't work for me anyway)
