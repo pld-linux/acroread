@@ -13,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 Version:	7.0.1
-Release:	1%{?with_license_agreement:wla}
+Release:	2%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
@@ -22,6 +22,8 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
 Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/7.0/enu/AdbeRdr701_linux_enu.tar.gz
+%else
+Source0:	license-installer.sh
 %endif
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
@@ -80,89 +82,18 @@ tar xf %{tar1}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%if ! %{with license_agreement}
+%if %{without license_agreement}
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{base_name}}
 
-cat <<EOF >$RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
-#!/bin/sh
-if [ "\$1" = "--with" -a "\$2" = "license_agreement" ]; then
-	TMPDIR=\`rpm --eval "%%{tmpdir}"\`; export TMPDIR
-	SPECDIR=\`rpm --eval "%%{_specdir}"\`; export SPECDIR
-	SRPMDIR=\`rpm --eval "%%{_srcrpmdir}"\`; export SRPMDIR
-	SOURCEDIR=\`rpm --eval "%%{_sourcedir}"\`; export SOURCEDIR
-	BUILDDIR=\`rpm --eval "%%{_builddir}"\`; export BUILDDIR
-	RPMDIR=\`rpm --eval "%%{_rpmdir}"\`; export RPMDIR
-	BACKUP=0
-	mkdir -p \$TMPDIR \$SPECDIR \$SRPMDIR \$RPMDIR \$SRPMDIR \$SOURCEDIR \$BUILDDIR
-	if [ -f \$SPECDIR/%{base_name}.spec ]; then
-		BACKUP=1
-		mv -f \$SPECDIR/%{base_name}.spec \$SPECDIR/%{base_name}.spec.prev
-	fi
-	for i in %{base_name}.desktop %{base_name}.png %{base_name}-locale.patch; do
-		if [ -f \$SOURCEDIR/\$i ]; then
-			mv -f \$SOURCEDIR/\$i \$SOURCEDIR/\$i.prev
-			BACKUP=1
-		fi
-	done
-	if echo "\$3" | grep '\.src\.rpm$' >/dev/null; then
-		( cd \$SRPMDIR
-		if echo "\$3" | grep '://' >/dev/null; then
-			wget --passive-ftp -t0 "\$3"
-		else
-			cp -f "\$3" .
-		fi
-		rpm2cpio \`basename "\$3"\` | ( cd \$TMPDIR; cpio -i %{base_name}.spec )
-		for i in %{base_name}.desktop %{base_name}.png; do
-			rpm2cpio \$i | ( cd \$TMPDIR; cpio -i \$i )
-		done )
-		cp -i \$TMPDIR/%{base_name}.spec \$SPECDIR/%{base_name}.spec \
-			|| exit 1
-		for i in %{base_name}.desktop %{base_name}.png; do
-			cp -i \$TMPDIR/\$i \$SOURCEDIR/\$i || exit 1
-		done
-	else
-		cp -i "\$3" \$SPECDIR || exit 1
-		for i in %{base_name}.desktop %{base_name}.png; do
-			cp -i %{_datadir}/%{base_name}/\$i \$SOURCEDIR/\$i || exit 1
-		done
-	fi
-	( cd \$SPECDIR
-	%{_bindir}/builder -nc -ncs --with license_agreement --opts --target=%{_target_cpu} %{base_name}.spec
-	if [ "\$?" -ne 0 ]; then
-		exit 2
-	fi
-	RPMNAME1=%{base_name}-%{version}-%{release}wla.%{_target_cpu}.rpm
-	RPMNAME2=mozilla-plugin-%{base_name}-%{version}-%{release}wla.%{_target_cpu}.rpm
-	echo "Installing \$RPMNAME1"
-	RPMNAMES=\$RPMDIR/\$RPMNAME1
-	if rpm -q --whatprovides mozilla-embedded >/dev/null 2>&1; then
-		RPMNAMES="\$RPMNAMES \$RPMDIR/\$RPMNAME2"
-		echo "Installing \$RPMNAME2"
-	else
-		echo "Not installing \$RPMNAME2"
-	fi
-	rpm -U \$RPMNAMES || \
-		echo -e "Install manually the file(s):\n   \$RPMNAMES" )
-	if [ "\$BACKUP" -eq 1 ]; then
-		if [ -f \$SPECDIR/%{base_name}.spec.prev ]; then
-			mv -f \$SPECDIR/%{base_name}.spec.prev \$SPECDIR/%{base_name}.spec
-		fi
-		for i in %{base_name}.desktop %{base_name}.png %{base_name}-locale.patch; do
-			if [ -f \$SOURCEDIR/\$i.prev ]; then
-				mv -f \$SOURCEDIR/\$i.prev \$SOURCEDIR/\$i
-			fi
-		done
-	fi
-else
-	echo "
-License issues made us not to include inherent files into
-this package by default. If you want to create full working
-package please build it with the following command:
-
-\$0 --with license_agreement %{_datadir}/%{base_name}/%{base_name}.spec
-"
-fi
-EOF
+sed -e '
+	s/@BASE_NAME@/%{base_name}/g
+	s/@TARGET_CPU@/%{_target_cpu}/g
+	s-@VERSION@-%{version}-g
+	s-@RELEASE@-%{release}-g
+	s,@SPECFILE@,%{_datadir}/%{base_name}/%{base_name}.spec,g
+	s,@DATADIR@,%{_datadir}/%{base_name},g
+	s/@COPYSOURCES@/%{base_name}{.desktop,.png}/g
+' %{SOURCE0} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
 
 install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
@@ -192,20 +123,14 @@ chmod a-x $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/*.so.*
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%if ! %{with license_agreement}
+%if %{without license_agreement}
 %pre
-echo "
-License issues made us not to include inherent files into
-this package by default. If you want to create full working
-package please build it with the following command:
-
-%{base_name}.install --with license_agreement %{_datadir}/%{base_name}/%{base_name}.spec
-"
+%{_bindir}/%{base_name}.install
 %endif
 
 %files
 %defattr(644,root,root,755)
-%if ! %{with license_agreement}
+%if %{without license_agreement}
 %attr(755,root,root) %{_bindir}/%{base_name}.install
 %{_datadir}/%{base_name}
 %else
