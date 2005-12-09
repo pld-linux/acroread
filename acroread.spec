@@ -138,13 +138,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %else
 
-%triggerin -- mozilla-firefox
+%triggerin plugin -- mozilla-firefox
 %nsplugin_install -d %{_libdir}/mozilla-firefox/plugins nppdf.so
 
-%triggerun -- mozilla-firefox
+%triggerun plugin -- mozilla-firefox
 %nsplugin_uninstall -d %{_libdir}/mozilla-firefox/plugins nppdf.so
 
-%triggerin -- mozilla
+%triggerin plugin -- mozilla
 %nsplugin_install -d %{_libdir}/mozilla/plugins nppdf.so
 if [ -d /usr/%{_lib}/mozilla ]; then
 	umask 022
@@ -154,7 +154,7 @@ if [ -d /usr/%{_lib}/mozilla ]; then
 	fi
 fi
 
-%triggerun -- mozilla
+%triggerun plugin -- mozilla
 %nsplugin_uninstall -d %{_libdir}/mozilla/plugins nppdf.so
 if [ -d /usr/%{_lib}/mozilla ]; then
 	umask 022
@@ -164,21 +164,21 @@ if [ -d /usr/%{_lib}/mozilla ]; then
 	fi
 fi
 
-# % triggerin -- konqueror
+# % triggerin plugin -- konqueror
 # % nsplugin_install -d %{_libdir}/kde3/plugins/konqueror nppdf.so
 
-# % triggerun -- konqueror
+# % triggerun plugin -- konqueror
 # % nsplugin_uninstall -d %{_libdir}/kde3/plugins/konqueror nppdf.so
 
-# % triggerin -- opera
+# % triggerin plugin -- opera
 # % nsplugin_install -d %{_libdir}/opera/plugins nppdf.so
 
-# % triggerun -- opera
+# % triggerun plugin -- opera
 # % nsplugin_uninstall -d %{_libdir}/opera/plugins nppdf.so
 
 # as rpm removes the old obsoleted package files after the triggers
 # above are ran, add another trigger to make the links there.
-%triggerpostun -- mozilla-plugin-acroread
+%triggerpostun plugin -- mozilla-plugin-acroread
 %nsplugin_install -f -d %{_libdir}/mozilla/plugins nppdf.so
 
 %endif
