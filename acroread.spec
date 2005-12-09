@@ -28,9 +28,18 @@ Source0:	license-installer.sh
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
-%{?with_license_agreement:Requires:	openldap-libs >= 2.2}
+%if %{with license_agreement}
+BuildRequires:	rpmbuild(macros) >= 1.236
+Requires:	openldap-libs >= 2.2
+%endif
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_plugindir	%{_libdir}/browser-plugins
+
+# TODO: galeon and skipstone, konqueror, opera.
+# use macro, otherwise extra LF inserted along with the ifarch
+%define	browsers mozilla, mozilla-firefox
 
 %define		platform	intellinux
 %define		tar0		ILINXR.TAR
