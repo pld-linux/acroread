@@ -13,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 Version:	7.0.1
-Release:	2%{?with_license_agreement:wla}
+Release:	2.1%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
@@ -31,8 +31,6 @@ URL:		http://www.adobe.com/products/acrobat/
 %{?with_license_agreement:Requires:	openldap-libs >= 2.2}
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		mozdir		%{_libdir}/mozilla/plugins
 
 %define		platform	intellinux
 %define		tar0		ILINXR.TAR
@@ -59,17 +57,19 @@ sprzêtowych oraz ró¿nych systemach operacyjnych.
 ðÒÏÇÒÁÍÁ ÄÌÑ ÞÉÔÁÎÎÑ ÄÏËÕÍÅÎÔ¦× Õ ÆÏÒÍÁÔ¦ Portable Document Format
 (PDF), ÚÇÅÎÅÒÏ×ÁÎÉÈ Adobe Acrobat'ÏÍ.
 
-%package -n mozilla-plugin-%{base_name}
-Summary:	Mozilla PDF plugin
-Summary(pl):	Wtyczka PDF do Mozilli
+%package plugin
+Summary:	PDF plugin for Mozilla compatible browsers
+Summary(pl):	Wtyczka PDF dla przegl±darek zgodnych Mozilla
 Group:		X11/Applications
 Prereq:		mozilla-embedded
 Requires:	%{base_name} = %{epoch}:%{version}
+Requires:	browser-plugins(%{_target_cpu})
+Obsoletes:	mozilla-plugin-acroread
 
-%description -n mozilla-plugin-%{base_name}
+%description plugin
 A Mozilla plugin for displaying PDF (Portable Document Format) files.
 
-%description -n mozilla-plugin-%{base_name} -l pl
+%description plugin -l pl
 Wtyczka Mozilli do wy¶wietlania plików PDF (Portable Document Format).
 
 %prep
@@ -100,7 +100,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 
 %else
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{mozdir}} \
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_plugindir}} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
 cd AdobeReader
@@ -109,7 +109,7 @@ awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
 	{print}' \
 	bin/%{base_name} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}
-install Browser/%{platform}/* $RPM_BUILD_ROOT%{mozdir}
+install Browser/%{platform}/* $RPM_BUILD_ROOT%{_plugindir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
@@ -126,6 +126,52 @@ rm -rf $RPM_BUILD_ROOT
 %if %{without license_agreement}
 %pre
 %{_bindir}/%{base_name}.install
+
+%else
+
+%triggerin -- mozilla-firefox
+%nsplugin_install -d %{_libdir}/mozilla-firefox/plugins nppdf.so
+
+%triggerun -- mozilla-firefox
+%nsplugin_uninstall -d %{_libdir}/mozilla-firefox/plugins nppdf.so
+
+%triggerin -- mozilla
+%nsplugin_install -d %{_libdir}/mozilla/plugins nppdf.so
+if [ -d /usr/%{_lib}/mozilla ]; then
+	umask 022
+	rm -f /usr/%{_lib}/mozilla/components/{compreg,xpti}.dat
+	if [ -x /usr/bin/regxpcom ]; then
+		MOZILLA_FIVE_HOME=/usr/%{_lib}/mozilla /usr/bin/regxpcom
+	fi
+fi
+
+%triggerun -- mozilla
+%nsplugin_uninstall -d %{_libdir}/mozilla/plugins nppdf.so
+if [ -d /usr/%{_lib}/mozilla ]; then
+	umask 022
+	rm -f /usr/%{_lib}/mozilla/components/{compreg,xpti}.dat
+	if [ -x /usr/bin/regxpcom ]; then
+		MOZILLA_FIVE_HOME=/usr/%{_lib}/mozilla /usr/bin/regxpcom
+	fi
+fi
+
+# % triggerin -- konqueror
+# % nsplugin_install -d %{_libdir}/kde3/plugins/konqueror nppdf.so
+
+# % triggerun -- konqueror
+# % nsplugin_uninstall -d %{_libdir}/kde3/plugins/konqueror nppdf.so
+
+# % triggerin -- opera
+# % nsplugin_install -d %{_libdir}/opera/plugins nppdf.so
+
+# % triggerun -- opera
+# % nsplugin_uninstall -d %{_libdir}/opera/plugins nppdf.so
+
+# as rpm removes the old obsoleted package files after the triggers
+# above are ran, add another trigger to make the links there.
+%triggerpostun -- mozilla-plugin-acroread
+%nsplugin_install -f -d %{_libdir}/mozilla/plugins nppdf.so
+
 %endif
 
 %files
@@ -160,7 +206,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/acroread.desktop
 %{_pixmapsdir}/*
 
-%files -n mozilla-plugin-%{base_name}
+%files plugin
 %defattr(644,root,root,755)
-%attr(755,root,root) %{mozdir}/*
+%attr(755,root,root) %{_plugindir}/*
 %endif
