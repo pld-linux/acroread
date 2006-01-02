@@ -13,7 +13,8 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 Version:	7.0.1
-Release:	3%{?with_license_agreement:wla}
+%define	_rel	4
+Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
@@ -25,6 +26,7 @@ Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/7.0/enu/AdbeRdr701
 %else
 Source0:	license-installer.sh
 %endif
+# please update @COPYSOURCES@ below if you add more Sources.
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
@@ -133,7 +135,7 @@ chmod a-x $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/*.so.*
 rm -rf $RPM_BUILD_ROOT
 
 %if %{without license_agreement}
-%pre
+%post
 %{_bindir}/%{base_name}.install
 
 %else
