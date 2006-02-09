@@ -12,8 +12,8 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	7.0.1
-%define	_rel	5
+Version:	7.0.5
+%define	_rel	1
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -22,7 +22,7 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/7.0/enu/AdbeRdr701_linux_enu.tar.gz
+Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/7.0.5/enu/AdobeReader_enu-7.0.5-1.i386.tar.gz
 %else
 Source0:	license-installer.sh
 %endif
@@ -124,6 +124,8 @@ install Browser/%{platform}/* $RPM_BUILD_ROOT%{_plugindir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
+rm -rf $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Patch
+
 ln -sf /usr/lib/liblber-2.3.so.0 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/liblber.so
 ln -sf /usr/lib/libldap-2.3.so.0 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/libldap.so
 ln -sf /usr/share/ssl/ca-bundle.crt $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Cert/curl-ca-bundle.crt
@@ -191,7 +193,7 @@ fi
 %attr(755,root,root) %{_bindir}/%{base_name}.install
 %{_datadir}/%{base_name}
 %else
-%doc AdobeReader/{LICREAD.TXT,README}
+%doc AdobeReader/{LICREAD.TXT,ReadMe.htm}
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/%{base_name}
 %{_libdir}/%{base_name}/Resource
