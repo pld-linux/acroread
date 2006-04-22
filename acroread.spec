@@ -2,18 +2,18 @@
 # Conditional build:
 %bcond_with	license_agreement	# generates package
 #
+%define		base_name	acroread
 Summary:	Acrobat Reader
 Summary(pl):	Acrobat Reader - czytnik plików PDF
 Summary(ru):	ğÒÏÇÒÁÍÍÁ ÄÌÑ ŞÔÅÎÉÑ ÄÏËÕÍÅÎÔÏ× × ÆÏÒÍÁÔÅ PDF ÏÔ Adobe
 Summary(uk):	ğÒÏÇÒÁÍÁ ÄÌÑ ŞÉÔÁÎÎÑ ÄÏËÕÍÅÎÔ¦× Õ ÆÏÒÍÁÔ¦ PDF ×¦Ä Adobe
-%define		base_name	acroread
 %if %{with license_agreement}
 Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	7.0.5
 %define	_rel	1
+Version:	7.0.5
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -22,7 +22,7 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/7.0.5/enu/AdobeReader_enu-7.0.5-1.i386.tar.gz
+Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/7.0.5/enu/AdobeReader_enu-%{version}-1.i386.tar.gz
 %else
 Source0:	license-installer.sh
 %endif
@@ -33,6 +33,8 @@ URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.236
 Requires:	openldap-libs >= 2.3
+%else
+Requires:	rpm-build-tools
 %endif
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -51,14 +53,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreq	'^lib.*\.so$' '^lib.*\(VERSION\)$'
 
 %description
-Adobe(R) Reader(R) is free software that lets you view and print
-PDF files (Portable Document Format) on a variety of hardware and
+Adobe(R) Reader(R) is free software that lets you view and print PDF
+files (Portable Document Format) on a variety of hardware and
 operating system platforms.
 
 %description -l pl
-Adobe(R) Reader(R) jest darmowym oprogramowaniem umo¿liwiaj±cym ogl±danie
-oraz drukowanie plików PDF (Portable Document Format) na ró¿nych platformach
-sprzêtowych oraz ró¿nych systemach operacyjnych.
+Adobe(R) Reader(R) jest darmowym oprogramowaniem umo¿liwiaj±cym
+ogl±danie oraz drukowanie plików PDF (Portable Document Format) na
+ró¿nych platformach sprzêtowych oraz ró¿nych systemach operacyjnych.
 
 %description -l ru
 ğÒÏÇÒÁÍÍÁ ÄÌÑ ŞÔÅÎÉÑ ÄÏËÕÍÅÎÔÏ× × ÆÏÒÍÁÔÅ Portable Document Format
@@ -72,9 +74,9 @@ sprzêtowych oraz ró¿nych systemach operacyjnych.
 Summary:	PDF plugin for Mozilla compatible browsers
 Summary(pl):	Wtyczka PDF dla przegl±darek zgodnych Mozilla
 Group:		X11/Applications
-Prereq:		mozilla-embedded
-Requires:	%{base_name} = %{epoch}:%{version}
+Requires:	%{base_name} = %{epoch}:%{version}-%{release}
 Requires:	browser-plugins(%{_target_cpu})
+Requires:	mozilla-embedded
 Obsoletes:	mozilla-plugin-acroread
 
 %description plugin
