@@ -1,0 +1,2 @@
+- version as 7.0; don't strip *.api (it's still 52MB whether you strip
+  *.api or not); add Legal dir. works now
