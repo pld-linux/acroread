@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	2
+%define	_rel	3
 Version:	7.0.5
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
