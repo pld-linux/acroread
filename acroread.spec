@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	4
+%define	_rel	5
 Version:	7.0.5
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
@@ -75,7 +75,7 @@ Summary:	PDF plugin for Mozilla compatible browsers
 Summary(pl):	Wtyczka PDF dla przegl±darek zgodnych Mozilla
 Group:		X11/Applications
 Requires:	%{base_name} = %{epoch}:%{version}-%{release}
-Requires:	browser-plugins(%{_target_cpu})
+Requires:	browser-plugins(%{_target_base_arch})
 Requires:	mozilla-embedded
 Obsoletes:	mozilla-plugin-acroread
 
