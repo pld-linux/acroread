@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	3
+%define	_rel	4
 Version:	7.0.5
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
@@ -152,23 +152,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %triggerin plugin -- mozilla
 %nsplugin_install -d %{_libdir}/mozilla/plugins nppdf.so
-if [ -d /usr/%{_lib}/mozilla ]; then
-	umask 022
-	rm -f /usr/%{_lib}/mozilla/components/{compreg,xpti}.dat
-	if [ -x /usr/bin/regxpcom ]; then
-		MOZILLA_FIVE_HOME=/usr/%{_lib}/mozilla /usr/bin/regxpcom
-	fi
-fi
 
 %triggerun plugin -- mozilla
 %nsplugin_uninstall -d %{_libdir}/mozilla/plugins nppdf.so
-if [ -d /usr/%{_lib}/mozilla ]; then
-	umask 022
-	rm -f /usr/%{_lib}/mozilla/components/{compreg,xpti}.dat
-	if [ -x /usr/bin/regxpcom ]; then
-		MOZILLA_FIVE_HOME=/usr/%{_lib}/mozilla /usr/bin/regxpcom
-	fi
-fi
 
 # % triggerin plugin -- konqueror
 # % nsplugin_install -d %{_libdir}/kde3/plugins/konqueror nppdf.so
