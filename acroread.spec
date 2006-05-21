@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	5
+%define	_rel	6
 Version:	7.0.5
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
@@ -43,7 +43,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # TODO: galeon and skipstone, konqueror, opera.
 # use macro, otherwise extra LF inserted along with the ifarch
-%define	browsers mozilla, mozilla-firefox
+%define	browsers mozilla, mozilla-firefox, seamonkey
 
 %define		platform	intellinux
 %define		tar0		ILINXR.TAR
@@ -155,6 +155,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %triggerun plugin -- mozilla
 %nsplugin_uninstall -d %{_libdir}/mozilla/plugins nppdf.so
+
+%triggerin plugin -- seamonkey
+%nsplugin_install -d %{_libdir}/seamonkey/plugins nppdf.so
+
+%triggerun plugin -- seamonkey
+%nsplugin_uninstall -d %{_libdir}/seamonkey/plugins nppdf.so
 
 # % triggerin plugin -- konqueror
 # % nsplugin_install -d %{_libdir}/kde3/plugins/konqueror nppdf.so
