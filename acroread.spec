@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	6
+%define	_rel	7
 Version:	7.0.5
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
@@ -76,7 +76,6 @@ Summary(pl):	Wtyczka PDF dla przegl±darek zgodnych Mozilla
 Group:		X11/Applications
 Requires:	%{base_name} = %{epoch}:%{version}-%{release}
 Requires:	browser-plugins(%{_target_base_arch})
-Requires:	mozilla-embedded
 Obsoletes:	mozilla-plugin-acroread
 
 %description plugin
