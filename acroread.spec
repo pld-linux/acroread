@@ -12,8 +12,8 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	7
-Version:	7.0.5
+%define	_rel	1
+Version:	7.0.8
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -22,7 +22,7 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/7.0.5/enu/AdobeReader_enu-%{version}-1.i386.tar.gz
+Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/7.0.8/enu/AdobeReader_enu-%{version}-1.i386.tar.gz
 %else
 Source0:	license-installer.sh
 %endif
