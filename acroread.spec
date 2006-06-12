@@ -202,12 +202,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{base_name}/Reader/WebSearch
 %dir %{_libdir}/%{base_name}/Reader/%{platform}
 %dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins
+%dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/SPPlugins
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/bin
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/lib
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/*.api
+%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d/*.x3d
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/AcroForm
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Annotations
+
 %{_libdir}/%{base_name}/Reader/%{platform}/res
 %{_desktopdir}/acroread.desktop
 %{_pixmapsdir}/*
