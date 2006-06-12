@@ -210,7 +210,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d/*.x3d
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/AcroForm
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Annotations
-
 %{_libdir}/%{base_name}/Reader/%{platform}/res
 %{_desktopdir}/acroread.desktop
 %{_pixmapsdir}/*
