@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	1
+%define	_rel	2
 Version:	7.0.8
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
@@ -70,18 +70,19 @@ rÛønych platformach sprzÍtowych oraz rÛønych systemach operacyjnych.
 “œ«“¡Õ¡ ƒÃ— ﬁ…‘¡ŒŒ— ƒœÀ’Õ≈Œ‘¶◊ ’ ∆œ“Õ¡‘¶ Portable Document Format
 (PDF), ⁄«≈Œ≈“œ◊¡Œ…» Adobe Acrobat'œÕ.
 
-%package plugin
+%package -n browser-plugin-%{name}
 Summary:	PDF plugin for Mozilla compatible browsers
 Summary(pl):	Wtyczka PDF dla przegl±darek zgodnych Mozilla
 Group:		X11/Applications
 Requires:	%{base_name} = %{epoch}:%{version}-%{release}
 Requires:	browser-plugins(%{_target_base_arch})
+Obsoletes:	acroread-plugin
 Obsoletes:	mozilla-plugin-acroread
 
-%description plugin
+%description -n browser-plugin-%{name}
 A Mozilla plugin for displaying PDF (Portable Document Format) files.
 
-%description plugin -l pl
+%description -n browser-plugin-%{name} -l pl
 Wtyczka Mozilli do wy∂wietlania plikÛw PDF (Portable Document Format).
 
 %prep
@@ -143,39 +144,39 @@ rm -rf $RPM_BUILD_ROOT
 
 %else
 
-%triggerin plugin -- mozilla-firefox
+%triggerin -n browser-plugin-%{name} -- mozilla-firefox
 %nsplugin_install -d %{_libdir}/mozilla-firefox/plugins nppdf.so
 
-%triggerun plugin -- mozilla-firefox
+%triggerun -n browser-plugin-%{name} -- mozilla-firefox
 %nsplugin_uninstall -d %{_libdir}/mozilla-firefox/plugins nppdf.so
 
-%triggerin plugin -- mozilla
+%triggerin -n browser-plugin-%{name} -- mozilla
 %nsplugin_install -d %{_libdir}/mozilla/plugins nppdf.so
 
-%triggerun plugin -- mozilla
+%triggerun -n browser-plugin-%{name} -- mozilla
 %nsplugin_uninstall -d %{_libdir}/mozilla/plugins nppdf.so
 
-%triggerin plugin -- seamonkey
+%triggerin -n browser-plugin-%{name} -- seamonkey
 %nsplugin_install -d %{_libdir}/seamonkey/plugins nppdf.so
 
-%triggerun plugin -- seamonkey
+%triggerun -n browser-plugin-%{name} -- seamonkey
 %nsplugin_uninstall -d %{_libdir}/seamonkey/plugins nppdf.so
 
-# % triggerin plugin -- konqueror
+# % triggerin -n browser-plugin-%{name} -- konqueror
 # % nsplugin_install -d %{_libdir}/kde3/plugins/konqueror nppdf.so
 
-# % triggerun plugin -- konqueror
+# % triggerun -n browser-plugin-%{name} -- konqueror
 # % nsplugin_uninstall -d %{_libdir}/kde3/plugins/konqueror nppdf.so
 
-# % triggerin plugin -- opera
+# % triggerin -n browser-plugin-%{name} -- opera
 # % nsplugin_install -d %{_libdir}/opera/plugins nppdf.so
 
-# % triggerun plugin -- opera
+# % triggerun -n browser-plugin-%{name} -- opera
 # % nsplugin_uninstall -d %{_libdir}/opera/plugins nppdf.so
 
 # as rpm removes the old obsoleted package files after the triggers
 # above are ran, add another trigger to make the links there.
-%triggerpostun plugin -- mozilla-plugin-acroread
+%triggerpostun -n browser-plugin-%{name} -- mozilla-plugin-acroread
 %nsplugin_install -f -d %{_libdir}/mozilla/plugins nppdf.so
 
 %endif
@@ -214,7 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/acroread.desktop
 %{_pixmapsdir}/*
 
-%files plugin
+%files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_plugindir}/*
 %endif
