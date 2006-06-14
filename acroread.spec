@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	2
+%define	_rel	3
 Version:	7.0.8
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
@@ -176,7 +176,7 @@ rm -rf $RPM_BUILD_ROOT
 
 # as rpm removes the old obsoleted package files after the triggers
 # above are ran, add another trigger to make the links there.
-%triggerpostun -n browser-plugin-%{name} -- mozilla-plugin-acroread
+%triggerpostun -n browser-plugin-%{name} -- mozilla-plugin-acroread, acroread-plugin
 %nsplugin_install -f -d %{_libdir}/mozilla/plugins nppdf.so
 
 %endif
