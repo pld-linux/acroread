@@ -29,6 +29,8 @@ Source0:	license-installer.sh
 # please update @COPYSOURCES@ below if you add more Sources.
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
+Patch0:		%{base_name}-expr.patch
+Patch1:		%{base_name}-scim.patch
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.236
@@ -91,6 +93,8 @@ Wtyczka Mozilli do wy¶wietlania plików PDF (Portable Document Format).
 cd AdobeReader
 tar xf %{tar0}
 tar xf %{tar1}
+%patch0 -p1
+%patch1 -p1
 %endif
 
 %install
