@@ -99,7 +99,7 @@ tar xf %{tar1}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%if %{without license_agreement}
+%if !%{with license_agreement}
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{base_name}}
 
 sed -e '
@@ -142,7 +142,7 @@ chmod a-x $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/*.so.*
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%if %{without license_agreement}
+%if !%{with license_agreement}
 %post
 %{_bindir}/%{base_name}.install
 
@@ -187,7 +187,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%if %{without license_agreement}
+%if !%{with license_agreement}
 %attr(755,root,root) %{_bindir}/%{base_name}.install
 %{_datadir}/%{base_name}
 %else
