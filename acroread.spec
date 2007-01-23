@@ -23,10 +23,9 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
 Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/%{version}/enu/AdobeReader_enu-%{version}-1.i386.tar.gz
-# Source0-md5:	a8e79a1af58f90640cf9e7e1532a5745
+# NoSource0-md5:	a8e79a1af58f90640cf9e7e1532a5745
 %else
 Source0:	license-installer.sh
-# Source0-md5:	a8e79a1af58f90640cf9e7e1532a5745
 %endif
 # please update @COPYSOURCES@ below if you add more Sources.
 Source1:	%{base_name}.desktop
