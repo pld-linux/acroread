@@ -4,9 +4,9 @@
 #
 %define		base_name	acroread
 Summary:	Adobe Acrobat Reader
-Summary(pl.UTF-8):   Adobe Acrobat Reader - czytnik plików PDF
-Summary(ru.UTF-8):   Программа для чтения документов в формате PDF от Adobe
-Summary(uk.UTF-8):   Програма для читання документів у форматі PDF від Adobe
+Summary(pl.UTF-8):	Adobe Acrobat Reader - czytnik plików PDF
+Summary(ru.UTF-8):	Программа для чтения документов в формате PDF от Adobe
+Summary(uk.UTF-8):	Програма для читання документів у форматі PDF від Adobe
 %if %{with license_agreement}
 Name:		%{base_name}
 %else
@@ -76,7 +76,7 @@ różnych platformach sprzętowych oraz różnych systemach operacyjnych.
 
 %package -n browser-plugin-%{name}
 Summary:	PDF plugin for Mozilla compatible browsers
-Summary(pl.UTF-8):   Wtyczka PDF dla przeglądarek zgodnych Mozilla
+Summary(pl.UTF-8):	Wtyczka PDF dla przeglądarek zgodnych Mozilla
 Group:		X11/Applications
 Requires:	%{base_name} = %{epoch}:%{version}-%{release}
 Requires:	browser-plugins(%{_target_base_arch})
