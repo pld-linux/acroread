@@ -4,9 +4,9 @@
 #
 %define		base_name	acroread
 Summary:	Adobe Acrobat Reader
-Summary(pl):	Adobe Acrobat Reader - czytnik plikСw PDF
-Summary(ru):	Программа для чтения документов в формате PDF от Adobe
-Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
+Summary(pl.UTF-8):   Adobe Acrobat Reader - czytnik plikцЁw PDF
+Summary(ru.UTF-8):   п÷я─п╬пЁя─п╟п╪п╪п╟ п╢п╩я▐ я┤я┌п╣п╫п╦я▐ п╢п╬п╨я┐п╪п╣п╫я┌п╬п╡ п╡ я└п╬я─п╪п╟я┌п╣ PDF п╬я┌ Adobe
+Summary(uk.UTF-8):   п÷я─п╬пЁя─п╟п╪п╟ п╢п╩я▐ я┤п╦я┌п╟п╫п╫я▐ п╢п╬п╨я┐п╪п╣п╫я┌я√п╡ я┐ я└п╬я─п╪п╟я┌я√ PDF п╡я√п╢ Adobe
 %if %{with license_agreement}
 Name:		%{base_name}
 %else
@@ -61,22 +61,22 @@ Adobe(R) Reader(R) is free software that lets you view and print PDF
 files (Portable Document Format) on a variety of hardware and
 operating system platforms.
 
-%description -l pl
-Adobe(R) Reader(R) jest darmowym oprogramowaniem umo©liwiaj╠cym
-ogl╠danie oraz drukowanie plikСw PDF (Portable Document Format) na
-rС©nych platformach sprzЙtowych oraz rС©nych systemach operacyjnych.
+%description -l pl.UTF-8
+Adobe(R) Reader(R) jest darmowym oprogramowaniem umoе╪liwiajд┘cym
+oglд┘danie oraz drukowanie plikцЁw PDF (Portable Document Format) na
+rцЁе╪nych platformach sprzд≥towych oraz rцЁе╪nych systemach operacyjnych.
 
-%description -l ru
-Программа для чтения документов в формате Portable Document Format
-(PDF), сгенерированных Adobe Acrobat'ом.
+%description -l ru.UTF-8
+п÷я─п╬пЁя─п╟п╪п╪п╟ п╢п╩я▐ я┤я┌п╣п╫п╦я▐ п╢п╬п╨я┐п╪п╣п╫я┌п╬п╡ п╡ я└п╬я─п╪п╟я┌п╣ Portable Document Format
+(PDF), я│пЁп╣п╫п╣я─п╦я─п╬п╡п╟п╫п╫я▀я┘ Adobe Acrobat'п╬п╪.
 
-%description -l uk
-Програма для читання документ╕в у формат╕ Portable Document Format
-(PDF), згенерованих Adobe Acrobat'ом.
+%description -l uk.UTF-8
+п÷я─п╬пЁя─п╟п╪п╟ п╢п╩я▐ я┤п╦я┌п╟п╫п╫я▐ п╢п╬п╨я┐п╪п╣п╫я┌я√п╡ я┐ я└п╬я─п╪п╟я┌я√ Portable Document Format
+(PDF), п╥пЁп╣п╫п╣я─п╬п╡п╟п╫п╦я┘ Adobe Acrobat'п╬п╪.
 
 %package -n browser-plugin-%{name}
 Summary:	PDF plugin for Mozilla compatible browsers
-Summary(pl):	Wtyczka PDF dla przegl╠darek zgodnych Mozilla
+Summary(pl.UTF-8):   Wtyczka PDF dla przeglд┘darek zgodnych Mozilla
 Group:		X11/Applications
 Requires:	%{base_name} = %{epoch}:%{version}-%{release}
 Requires:	browser-plugins(%{_target_base_arch})
@@ -86,8 +86,8 @@ Obsoletes:	mozilla-plugin-acroread
 %description -n browser-plugin-%{name}
 A Mozilla plugin for displaying PDF (Portable Document Format) files.
 
-%description -n browser-plugin-%{name} -l pl
-Wtyczka Mozilli do wy╤wietlania plikСw PDF (Portable Document Format).
+%description -n browser-plugin-%{name} -l pl.UTF-8
+Wtyczka Mozilli do wyе⌡wietlania plikцЁw PDF (Portable Document Format).
 
 %prep
 %if %{with license_agreement}
