@@ -30,7 +30,9 @@ Source0:	license-installer.sh
 # please update @COPYSOURCES@ below if you add more Sources.
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
-Patch0:		%{base_name}-gtk.patch
+Patch0:		%{base_name}-expr.patch
+Patch1:		%{base_name}-scim.patch
+Patch2:		%{base_name}-gtk.patch
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.236
@@ -94,6 +96,8 @@ cd AdobeReader
 tar xf %{tar0}
 tar xf %{tar1}
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 %endif
 
 %install
