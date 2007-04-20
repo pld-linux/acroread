@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	0.1
+%define	_rel	1
 Version:	7.0.9
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
@@ -112,7 +112,7 @@ sed -e '
 	s-@RELEASE@-%{release}-g
 	s,@SPECFILE@,%{_datadir}/%{base_name}/%{base_name}.spec,g
 	s,@DATADIR@,%{_datadir}/%{base_name},g
-	s/@COPYSOURCES@/%{base_name}{.desktop,.png}/g
+	s/@COPYSOURCES@/%{base_name}{.desktop,.png,-{expr,scim,gtk}-patch}/g
 ' %{SOURCE0} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
 
 install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
