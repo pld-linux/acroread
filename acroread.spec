@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	1
+%define	_rel	0.1
 Version:	7.0.9
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
@@ -118,6 +118,9 @@ sed -e '
 install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{PATCH0} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{PATCH1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{PATCH2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 
 %else
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_plugindir}} \
