@@ -27,7 +27,7 @@ Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/%{version}/enu/Ado
 %else
 Source0:	license-installer.sh
 %endif
-# please update @COPYSOURCES@ below if you add more Sources.
+# please update @COPYSOURCES@ below if you add more Sources or Patches.
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
 Patch0:		%{base_name}-expr.patch
@@ -112,7 +112,7 @@ sed -e '
 	s-@RELEASE@-%{release}-g
 	s,@SPECFILE@,%{_datadir}/%{base_name}/%{base_name}.spec,g
 	s,@DATADIR@,%{_datadir}/%{base_name},g
-	s/@COPYSOURCES@/%{base_name}{.desktop,.png}/g
+	s/@COPYSOURCES@/%{base_name}{.desktop,.png,-{expr,scim,gtk}-patch}/g
 ' %{SOURCE0} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
 
 install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
