@@ -3,8 +3,8 @@
 %bcond_with	license_agreement	# generates package
 #
 %define		base_name	acroread
-Summary:	Acrobat Reader
-Summary(pl):	Acrobat Reader - czytnik plikСw PDF
+Summary:	Adobe Acrobat Reader
+Summary(pl):	Adobe Acrobat Reader - czytnik plikСw PDF
 Summary(ru):	Программа для чтения документов в формате PDF от Adobe
 Summary(uk):	Програма для читання документ╕в у формат╕ PDF в╕д Adobe
 %if %{with license_agreement}
@@ -12,8 +12,8 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	4
-Version:	7.0.8
+%define	_rel	1
+Version:	7.0.9
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -22,7 +22,8 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/7.0.8/enu/AdobeReader_enu-%{version}-1.i386.tar.gz
+Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/%{version}/enu/AdobeReader_enu-%{version}-1.i386.tar.gz
+# NoSource0-md5:	a8e79a1af58f90640cf9e7e1532a5745
 %else
 Source0:	license-installer.sh
 %endif
@@ -31,6 +32,7 @@ Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
 Patch0:		%{base_name}-expr.patch
 Patch1:		%{base_name}-scim.patch
+Patch2:		%{base_name}-gtk.patch
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.236
@@ -95,11 +97,12 @@ tar xf %{tar0}
 tar xf %{tar1}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%if !%{with license_agreement}
+%if %{without license_agreement}
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{base_name}}
 
 sed -e '
@@ -109,12 +112,15 @@ sed -e '
 	s-@RELEASE@-%{release}-g
 	s,@SPECFILE@,%{_datadir}/%{base_name}/%{base_name}.spec,g
 	s,@DATADIR@,%{_datadir}/%{base_name},g
-	s/@COPYSOURCES@/%{base_name}{.desktop,.png}/g
+	s/@COPYSOURCES@/%{base_name}{.desktop,.png,-{expr,scim,gtk}.patch}/g
 ' %{SOURCE0} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
 
 install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{PATCH0} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{PATCH1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{PATCH2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 
 %else
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_plugindir}} \
@@ -142,7 +148,7 @@ chmod a-x $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/*.so.*
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%if !%{with license_agreement}
+%if %{without license_agreement}
 %post
 %{_bindir}/%{base_name}.install
 
@@ -187,7 +193,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%if !%{with license_agreement}
+%if %{without license_agreement}
 %attr(755,root,root) %{_bindir}/%{base_name}.install
 %{_datadir}/%{base_name}
 %else
