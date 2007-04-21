@@ -112,7 +112,7 @@ sed -e '
 	s-@RELEASE@-%{release}-g
 	s,@SPECFILE@,%{_datadir}/%{base_name}/%{base_name}.spec,g
 	s,@DATADIR@,%{_datadir}/%{base_name},g
-	s/@COPYSOURCES@/%{base_name}{.desktop,.png,-{expr,scim,gtk}-patch}/g
+	s/@COPYSOURCES@/%{base_name}{.desktop,.png,-{expr,scim,gtk}.patch}/g
 ' %{SOURCE0} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
 
 install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
