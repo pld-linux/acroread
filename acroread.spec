@@ -106,7 +106,7 @@ sed -e '
 	s-@RELEASE@-%{release}-g
 	s,@SPECFILE@,%{_datadir}/%{base_name}/%{base_name}.spec,g
 	s,@DATADIR@,%{_datadir}/%{base_name},g
-	s/@COPYSOURCES@/%{base_name}{.desktop,.png,-{expr,scim,gtk}.patch}/g
+	s/@COPYSOURCES@/%{base_name}{.desktop,.png}/g
 ' %{SOURCE0} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
 
 install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
@@ -189,7 +189,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/%{base_name}.install
 %{_datadir}/%{base_name}
 %else
-%doc AdobeReader/{LICREAD.TXT,ReadMe.htm}
+%doc AdobeReader/ReadMe.htm
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/%{base_name}
 %{_libdir}/%{base_name}/Resource
@@ -206,17 +206,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{base_name}/Reader/Tracker
 %{_libdir}/%{base_name}/Reader/PDFSigQFormalRep.pdf
 %{_libdir}/%{base_name}/Reader/pmd.cer
+%{_libdir}/%{base_name}/Reader/%{platform}/mozilla
 %dir %{_libdir}/%{base_name}/Reader/%{platform}
 %dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins
 %dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Multimedia
-%dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Multimedia/MPP
 %dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/SPPlugins
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/bin
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/lib
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/*.api
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d/*.x3d
-%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Multimedia/MPP/Real.mpp
+%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Multimedia/MPP
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/AcroForm
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Annotations
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d/prc
