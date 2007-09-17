@@ -13,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 %define	_rel	1
-Version:	7.0.9
+Version:	8.1.1
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -22,17 +22,14 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/%{version}/enu/AdobeReader_enu-%{version}-1.i386.tar.gz
-# NoSource0-md5:	a8e79a1af58f90640cf9e7e1532a5745
+Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/8.x/%{version}/enu/AdobeReader_enu-%{version}-1.i486.tar.gz
+# NoSource0-md5:	e7630311c597feff26024c3383eab110
 %else
 Source0:	license-installer.sh
 %endif
 # please update @COPYSOURCES@ below if you add more Sources or Patches.
 Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
-Patch0:		%{base_name}-expr.patch
-Patch1:		%{base_name}-scim.patch
-Patch2:		%{base_name}-gtk.patch
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.236
@@ -95,9 +92,6 @@ Wtyczka Mozilli do wyświetlania plików PDF (Portable Document Format).
 cd AdobeReader
 tar xf %{tar0}
 tar xf %{tar1}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
 %endif
 
 %install
@@ -118,15 +112,13 @@ sed -e '
 install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
-install %{PATCH0} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
-install %{PATCH1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
-install %{PATCH2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 
 %else
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_plugindir}} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
-cd AdobeReader
+# note: there're also AdobeReader/Adobe/Help{,Viewer}
+cd AdobeReader/Adobe/Reader8
 cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{base_name}
 awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
@@ -204,24 +196,30 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{base_name}/Reader
 %{_libdir}/%{base_name}/Reader/help
 %{_libdir}/%{base_name}/Reader/AcroVersion
+%{_libdir}/%{base_name}/Reader/BeyondReader
 %{_libdir}/%{base_name}/Reader/Cert
 %{_libdir}/%{base_name}/Reader/GlobalPrefs
 %{_libdir}/%{base_name}/Reader/HowTo
-%{_libdir}/%{base_name}/Reader/Legal
+%{_libdir}/%{base_name}/Reader/IDTemplates
 %{_libdir}/%{base_name}/Reader/JavaScripts
-%{_libdir}/%{base_name}/Reader/Messages
-%{_libdir}/%{base_name}/Reader/WebSearch
+%{_libdir}/%{base_name}/Reader/Legal
+%{_libdir}/%{base_name}/Reader/Tracker
+%{_libdir}/%{base_name}/Reader/PDFSigQFormalRep.pdf
+%{_libdir}/%{base_name}/Reader/pmd.cer
 %dir %{_libdir}/%{base_name}/Reader/%{platform}
 %dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins
+%dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Multimedia
+%dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Multimedia/MPP
 %dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/SPPlugins
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/bin
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/lib
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/*.api
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d/*.x3d
+%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Multimedia/MPP/Real.mpp
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/AcroForm
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Annotations
-%{_libdir}/%{base_name}/Reader/%{platform}/res
+%{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d/prc
 %{_desktopdir}/acroread.desktop
 %{_pixmapsdir}/*
 
