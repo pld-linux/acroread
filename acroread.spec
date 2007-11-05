@@ -24,6 +24,7 @@ Group:		X11/Applications/Graphics
 %if %{with license_agreement}
 Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/8.x/%{version}/enu/AdobeReader_enu-%{version}-1.i486.tar.gz
 # NoSource0-md5:	e7630311c597feff26024c3383eab110
+NoSource:	0
 %else
 Source0:	license-installer.sh
 %endif
