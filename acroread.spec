@@ -34,7 +34,8 @@ Source2:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.236
-Requires:	openldap-libs >= 2.3
+Requires:	openldap-libs >= 2.4
+Requires:	openldap-libs < 2.5
 %else
 Requires:	rpm-build-tools
 %endif
@@ -53,7 +54,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		tar1		COMMON.TAR
 
 %define		_noautostrip	.*\.api
-%define		_noautoreq	'^lib.*\.so$' '^lib.*\(VERSION\)$'
+%define		_noautoprov	libcrypto\.so.* libssl\.so.* libcurl\.so.* libicu.* libstdc++\.so.* libgcc_s\.so.* 
+%define		_noautoreq	%{_noautoprov} '^lib.*\.so$' '^lib.*\(VERSION\)$'
 
 %description
 Adobe(R) Reader(R) is free software that lets you view and print PDF
@@ -132,8 +134,8 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 rm -rf $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Patch
 
-ln -sf /usr/lib/liblber-2.3.so.0 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/liblber.so
-ln -sf /usr/lib/libldap-2.3.so.0 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/libldap.so
+ln -sf /usr/lib/liblber-2.4.so.2 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/liblber.so
+ln -sf /usr/lib/libldap-2.4.so.2 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/libldap.so
 ln -sf /usr/share/ssl/ca-bundle.crt $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Cert/curl-ca-bundle.crt
 
 chmod a-x $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/*.so.*
