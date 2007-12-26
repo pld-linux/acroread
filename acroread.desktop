@@ -1,11 +1,10 @@
 [Desktop Entry]
-Encoding=UTF-8
 Name=Acrobat Reader
 Name[pl]=Acrobat Reader
-MimeType=application/pdf
+MimeType=application/pdf;
 Comment=pdf file viewer
 Comment[pl]=Przeglądarka plików pdf
-Icon=acroread.png
+Icon=acroread
 Exec=acroread %F
 Terminal=false
 Type=Application
