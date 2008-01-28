@@ -12,7 +12,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	1
+%define	_rel	2
 Version:	8.1.1
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
@@ -33,7 +33,7 @@ Source1:	%{base_name}.desktop
 Source2:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
-BuildRequires:	rpmbuild(macros) >= 1.236
+BuildRequires:	rpmbuild(macros) >= 1.357
 Requires:	openldap-libs >= 2.4
 Requires:	openldap-libs < 2.5
 %else
@@ -42,12 +42,6 @@ Requires:	rpm-build-tools
 ExclusiveArch:	%{ix86}
 ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_plugindir	%{_libdir}/browser-plugins
-
-# TODO: galeon and skipstone, konqueror, opera.
-# use macro, otherwise extra LF inserted along with the ifarch
-%define	browsers mozilla, mozilla-firefox, seamonkey
 
 %define		platform	intellinux
 %define		tar0		ILINXR.TAR
@@ -80,7 +74,7 @@ Summary:	PDF plugin for Mozilla compatible browsers
 Summary(pl.UTF-8):	Wtyczka PDF dla przeglądarek zgodnych Mozilla
 Group:		X11/Applications
 Requires:	%{base_name} = %{epoch}:%{version}-%{release}
-Requires:	browser-plugins(%{_target_base_arch})
+Requires:	browser-plugins >= 2.0
 Obsoletes:	acroread-plugin
 Obsoletes:	mozilla-plugin-acroread
 
@@ -118,7 +112,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 
 %else
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_plugindir}} \
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_browserpluginsdir}} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
 # note: there're also AdobeReader/Adobe/Help{,Viewer}
@@ -128,7 +122,7 @@ awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
 	{print}' \
 	bin/%{base_name} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}
-install Browser/%{platform}/* $RPM_BUILD_ROOT%{_plugindir}
+install Browser/%{platform}/* $RPM_BUILD_ROOT%{_browserpluginsdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
@@ -147,44 +141,16 @@ rm -rf $RPM_BUILD_ROOT
 %if %{without license_agreement}
 %post
 %{_bindir}/%{base_name}.install
+%endif
 
-%else
+%if %{with license_agreement}
+%post -n browser-plugin-%{name}
+%update_browser_plugins
 
-%triggerin -n browser-plugin-%{name} -- mozilla-firefox
-%nsplugin_install -d %{_libdir}/mozilla-firefox/plugins nppdf.so
-
-%triggerun -n browser-plugin-%{name} -- mozilla-firefox
-%nsplugin_uninstall -d %{_libdir}/mozilla-firefox/plugins nppdf.so
-
-%triggerin -n browser-plugin-%{name} -- mozilla
-%nsplugin_install -d %{_libdir}/mozilla/plugins nppdf.so
-
-%triggerun -n browser-plugin-%{name} -- mozilla
-%nsplugin_uninstall -d %{_libdir}/mozilla/plugins nppdf.so
-
-%triggerin -n browser-plugin-%{name} -- seamonkey
-%nsplugin_install -d %{_libdir}/seamonkey/plugins nppdf.so
-
-%triggerun -n browser-plugin-%{name} -- seamonkey
-%nsplugin_uninstall -d %{_libdir}/seamonkey/plugins nppdf.so
-
-# % triggerin -n browser-plugin-%{name} -- konqueror
-# % nsplugin_install -d %{_libdir}/kde3/plugins/konqueror nppdf.so
-
-# % triggerun -n browser-plugin-%{name} -- konqueror
-# % nsplugin_uninstall -d %{_libdir}/kde3/plugins/konqueror nppdf.so
-
-# % triggerin -n browser-plugin-%{name} -- opera
-# % nsplugin_install -d %{_libdir}/opera/plugins nppdf.so
-
-# % triggerun -n browser-plugin-%{name} -- opera
-# % nsplugin_uninstall -d %{_libdir}/opera/plugins nppdf.so
-
-# as rpm removes the old obsoleted package files after the triggers
-# above are ran, add another trigger to make the links there.
-%triggerpostun -n browser-plugin-%{name} -- mozilla-plugin-acroread, acroread-plugin
-%nsplugin_install -f -d %{_libdir}/mozilla/plugins nppdf.so
-
+%postun -n browser-plugin-%{name}
+if [ "$1" = 0 ]; then
+	%update_browser_plugins
+fi
 %endif
 
 %files
@@ -229,5 +195,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_plugindir}/*
+%attr(755,root,root) %{_browserpluginsdir}/*
 %endif
