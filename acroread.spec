@@ -26,11 +26,11 @@ Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/8.x/%{version}/enu/Ad
 # NoSource0-md5:	e7630311c597feff26024c3383eab110
 NoSource:	0
 %else
-Source0:	license-installer.sh
+Source1:	license-installer.sh
 %endif
 # please update @COPYSOURCES@ below if you add more Sources or Patches.
-Source1:	%{base_name}.desktop
-Source2:	%{base_name}.png
+Source2:	%{base_name}.desktop
+Source3:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.357
@@ -105,11 +105,11 @@ sed -e '
 	s,@SPECFILE@,%{_datadir}/%{base_name}/%{base_name}.spec,g
 	s,@DATADIR@,%{_datadir}/%{base_name},g
 	s/@COPYSOURCES@/%{base_name}{.desktop,.png}/g
-' %{SOURCE0} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
+' %{SOURCE1} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
 
 install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 
 %else
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_browserpluginsdir}} \
@@ -123,8 +123,8 @@ awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	{print}' \
 	bin/%{base_name} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}
 install Browser/%{platform}/* $RPM_BUILD_ROOT%{_browserpluginsdir}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
+install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 rm -rf $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Patch
 
