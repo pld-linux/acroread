@@ -34,8 +34,8 @@ Source3:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.357
-Requires:	openldap-libs >= 2.4
 Requires:	openldap-libs < 2.5
+Requires:	openldap-libs >= 2.4
 %else
 Requires:	rpm-build-tools
 %endif
@@ -48,7 +48,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		tar1		COMMON.TAR
 
 %define		_noautostrip	.*\.api
-%define		_noautoprov	libcrypto\.so.* libssl\.so.* libcurl\.so.* libicu.* libstdc++\.so.* libgcc_s\.so.* 
+%define		_noautoprov	libcrypto\.so.* libssl\.so.* libcurl\.so.* libicu.* libstdc++\.so.* libgcc_s\.so.*
 %define		_noautoreq	%{_noautoprov} '^lib.*\.so$' '^lib.*\(VERSION\)$'
 
 %description
