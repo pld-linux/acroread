@@ -13,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 %define	_rel	1
-Version:	8.1.2_SU1
+Version:	8.1.3
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -22,8 +22,8 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/8.x/8.1.2/enu/AdobeReader_enu-%{version}-1.i486.tar.gz
-# NoSource0-md5:	92b52acf900ce4ece39edb53d4ff1c36
+Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/8.x/8.1.3/enu/AdobeReader_enu-%{version}-1.i486.tar.bz2
+# NoSource0-md5:	c85096f401772f435866a66ec06352f1
 NoSource:	0
 %else
 Source1:	license-installer.sh
