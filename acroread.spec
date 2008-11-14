@@ -4,16 +4,16 @@
 #
 %define		base_name	acroread
 Summary:	Adobe Acrobat Reader
-Summary(pl):	Adobe Acrobat Reader - czytnik plików PDF
-Summary(ru):	ðÒÏÇÒÁÍÍÁ ÄÌÑ ÞÔÅÎÉÑ ÄÏËÕÍÅÎÔÏ× × ÆÏÒÍÁÔÅ PDF ÏÔ Adobe
-Summary(uk):	ðÒÏÇÒÁÍÁ ÄÌÑ ÞÉÔÁÎÎÑ ÄÏËÕÍÅÎÔ¦× Õ ÆÏÒÍÁÔ¦ PDF ×¦Ä Adobe
+Summary(pl.UTF-8):	Adobe Acrobat Reader - czytnik plikÃ³w PDF
+Summary(ru.UTF-8):	ÐŸÑ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð° Ð´Ð»Ñ Ñ‡Ñ‚ÐµÐ½Ð¸Ñ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð² Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ðµ PDF Ð¾Ñ‚ Adobe
+Summary(uk.UTF-8):	ÐŸÑ€Ð¾Ð³Ñ€Ð°Ð¼Ð° Ð´Ð»Ñ Ñ‡Ð¸Ñ‚Ð°Ð½Ð½Ñ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ñ–Ð² Ñƒ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ñ– PDF Ð²Ñ–Ð´ Adobe
 %if %{with license_agreement}
 Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
 %define	_rel	1
-Version:	7.0.9
+Version:	8.1.3
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -22,72 +22,67 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/7x/%{version}/enu/AdobeReader_enu-%{version}-1.i386.tar.gz
-# NoSource0-md5:	a8e79a1af58f90640cf9e7e1532a5745
+Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/8.x/8.1.3/enu/AdobeReader_enu-%{version}-1.i486.tar.bz2
+# NoSource0-md5:	c85096f401772f435866a66ec06352f1
+NoSource:	0
 %else
-Source0:	license-installer.sh
+Source1:	license-installer.sh
 %endif
-# please update @COPYSOURCES@ below if you add more Sources.
-Source1:	%{base_name}.desktop
-Source2:	%{base_name}.png
-Patch0:		%{base_name}-expr.patch
-Patch1:		%{base_name}-scim.patch
-Patch2:		%{base_name}-gtk.patch
+# please update @COPYSOURCES@ below if you add more Sources or Patches.
+Source2:	%{base_name}.desktop
+Source3:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
-BuildRequires:	rpmbuild(macros) >= 1.236
+BuildRequires:	rpmbuild(macros) >= 1.357
+Requires:	openldap-libs < 2.4
 Requires:	openldap-libs >= 2.3
 %else
 Requires:	rpm-build-tools
 %endif
 ExclusiveArch:	%{ix86}
+ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_plugindir	%{_libdir}/browser-plugins
-
-# TODO: galeon and skipstone, konqueror, opera.
-# use macro, otherwise extra LF inserted along with the ifarch
-%define	browsers mozilla, mozilla-firefox, seamonkey
 
 %define		platform	intellinux
 %define		tar0		ILINXR.TAR
 %define		tar1		COMMON.TAR
 
 %define		_noautostrip	.*\.api
-%define		_noautoreq	'^lib.*\.so$' '^lib.*\(VERSION\)$'
+%define		_noautoprov	libcrypto\.so.* libssl\.so.* libcurl\.so.* libicu.* libstdc++\.so.* libgcc_s\.so.*
+%define		_noautoreq	%{_noautoprov} '^lib.*\.so$' '^lib.*\(VERSION\)$'
 
 %description
 Adobe(R) Reader(R) is free software that lets you view and print PDF
 files (Portable Document Format) on a variety of hardware and
 operating system platforms.
 
-%description -l pl
-Adobe(R) Reader(R) jest darmowym oprogramowaniem umo¿liwiaj±cym
-ogl±danie oraz drukowanie plików PDF (Portable Document Format) na
-ró¿nych platformach sprzêtowych oraz ró¿nych systemach operacyjnych.
+%description -l pl.UTF-8
+Adobe(R) Reader(R) jest darmowym oprogramowaniem umoÅ¼liwiajÄ…cym
+oglÄ…danie oraz drukowanie plikÃ³w PDF (Portable Document Format) na
+rÃ³Å¼nych platformach sprzÄ™towych oraz rÃ³Å¼nych systemach operacyjnych.
 
-%description -l ru
-ðÒÏÇÒÁÍÍÁ ÄÌÑ ÞÔÅÎÉÑ ÄÏËÕÍÅÎÔÏ× × ÆÏÒÍÁÔÅ Portable Document Format
-(PDF), ÓÇÅÎÅÒÉÒÏ×ÁÎÎÙÈ Adobe Acrobat'ÏÍ.
+%description -l ru.UTF-8
+ÐŸÑ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð° Ð´Ð»Ñ Ñ‡Ñ‚ÐµÐ½Ð¸Ñ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð² Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ðµ Portable Document Format
+(PDF), ÑÐ³ÐµÐ½ÐµÑ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Adobe Acrobat'Ð¾Ð¼.
 
-%description -l uk
-ðÒÏÇÒÁÍÁ ÄÌÑ ÞÉÔÁÎÎÑ ÄÏËÕÍÅÎÔ¦× Õ ÆÏÒÍÁÔ¦ Portable Document Format
-(PDF), ÚÇÅÎÅÒÏ×ÁÎÉÈ Adobe Acrobat'ÏÍ.
+%description -l uk.UTF-8
+ÐŸÑ€Ð¾Ð³Ñ€Ð°Ð¼Ð° Ð´Ð»Ñ Ñ‡Ð¸Ñ‚Ð°Ð½Ð½Ñ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ñ–Ð² Ñƒ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ñ– Portable Document Format
+(PDF), Ð·Ð³ÐµÐ½ÐµÑ€Ð¾Ð²Ð°Ð½Ð¸Ñ… Adobe Acrobat'Ð¾Ð¼.
 
 %package -n browser-plugin-%{name}
 Summary:	PDF plugin for Mozilla compatible browsers
-Summary(pl):	Wtyczka PDF dla przegl±darek zgodnych Mozilla
+Summary(pl.UTF-8):	Wtyczka PDF dla przeglÄ…darek zgodnych Mozilla
 Group:		X11/Applications
 Requires:	%{base_name} = %{epoch}:%{version}-%{release}
-Requires:	browser-plugins(%{_target_base_arch})
+Requires:	browser-plugins >= 2.0
 Obsoletes:	acroread-plugin
 Obsoletes:	mozilla-plugin-acroread
 
 %description -n browser-plugin-%{name}
 A Mozilla plugin for displaying PDF (Portable Document Format) files.
 
-%description -n browser-plugin-%{name} -l pl
-Wtyczka Mozilli do wy¶wietlania plików PDF (Portable Document Format).
+%description -n browser-plugin-%{name} -l pl.UTF-8
+Wtyczka Mozilli do wyÅ›wietlania plikÃ³w PDF (Portable Document Format).
 
 %prep
 %if %{with license_agreement}
@@ -95,9 +90,6 @@ Wtyczka Mozilli do wy¶wietlania plików PDF (Portable Document Format).
 cd AdobeReader
 tar xf %{tar0}
 tar xf %{tar1}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
 %endif
 
 %install
@@ -112,35 +104,32 @@ sed -e '
 	s-@RELEASE@-%{release}-g
 	s,@SPECFILE@,%{_datadir}/%{base_name}/%{base_name}.spec,g
 	s,@DATADIR@,%{_datadir}/%{base_name},g
-	s/@COPYSOURCES@/%{base_name}{.desktop,.png,-{expr,scim,gtk}.patch}/g
-' %{SOURCE0} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
+	s/@COPYSOURCES@/%{base_name}{.desktop,.png}/g
+' %{SOURCE1} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}.install
 
 install %{_specdir}/%{base_name}.spec $RPM_BUILD_ROOT%{_datadir}/%{base_name}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
-install %{PATCH0} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
-install %{PATCH1} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
-install %{PATCH2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
+install %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 
 %else
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_plugindir}} \
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_browserpluginsdir}} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
-cd AdobeReader
+# note: there're also AdobeReader/Adobe/Help{,Viewer}
+cd AdobeReader/Adobe/Reader8
 cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{base_name}
 awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
 	{print}' \
 	bin/%{base_name} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}
-install Browser/%{platform}/* $RPM_BUILD_ROOT%{_plugindir}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+install Browser/%{platform}/* $RPM_BUILD_ROOT%{_browserpluginsdir}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
+install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 rm -rf $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Patch
 
-ln -sf /usr/lib/liblber-2.3.so.0 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/liblber.so
+ln -sf /usr/lib/libldap-2.3.so.0 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/liblber.so
 ln -sf /usr/lib/libldap-2.3.so.0 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/libldap.so
-ln -sf /usr/share/ssl/ca-bundle.crt $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Cert/curl-ca-bundle.crt
 
 chmod a-x $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/*.so.*
 %endif
@@ -151,44 +140,16 @@ rm -rf $RPM_BUILD_ROOT
 %if %{without license_agreement}
 %post
 %{_bindir}/%{base_name}.install
+%endif
 
-%else
+%if %{with license_agreement}
+%post -n browser-plugin-%{name}
+%update_browser_plugins
 
-%triggerin -n browser-plugin-%{name} -- mozilla-firefox
-%nsplugin_install -d %{_libdir}/mozilla-firefox/plugins nppdf.so
-
-%triggerun -n browser-plugin-%{name} -- mozilla-firefox
-%nsplugin_uninstall -d %{_libdir}/mozilla-firefox/plugins nppdf.so
-
-%triggerin -n browser-plugin-%{name} -- mozilla
-%nsplugin_install -d %{_libdir}/mozilla/plugins nppdf.so
-
-%triggerun -n browser-plugin-%{name} -- mozilla
-%nsplugin_uninstall -d %{_libdir}/mozilla/plugins nppdf.so
-
-%triggerin -n browser-plugin-%{name} -- seamonkey
-%nsplugin_install -d %{_libdir}/seamonkey/plugins nppdf.so
-
-%triggerun -n browser-plugin-%{name} -- seamonkey
-%nsplugin_uninstall -d %{_libdir}/seamonkey/plugins nppdf.so
-
-# % triggerin -n browser-plugin-%{name} -- konqueror
-# % nsplugin_install -d %{_libdir}/kde3/plugins/konqueror nppdf.so
-
-# % triggerun -n browser-plugin-%{name} -- konqueror
-# % nsplugin_uninstall -d %{_libdir}/kde3/plugins/konqueror nppdf.so
-
-# % triggerin -n browser-plugin-%{name} -- opera
-# % nsplugin_install -d %{_libdir}/opera/plugins nppdf.so
-
-# % triggerun -n browser-plugin-%{name} -- opera
-# % nsplugin_uninstall -d %{_libdir}/opera/plugins nppdf.so
-
-# as rpm removes the old obsoleted package files after the triggers
-# above are ran, add another trigger to make the links there.
-%triggerpostun -n browser-plugin-%{name} -- mozilla-plugin-acroread, acroread-plugin
-%nsplugin_install -f -d %{_libdir}/mozilla/plugins nppdf.so
-
+%postun -n browser-plugin-%{name}
+if [ "$1" = 0 ]; then
+	%update_browser_plugins
+fi
 %endif
 
 %files
@@ -197,35 +158,41 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/%{base_name}.install
 %{_datadir}/%{base_name}
 %else
-%doc AdobeReader/{LICREAD.TXT,ReadMe.htm}
+%doc AdobeReader/ReadMe.htm
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/%{base_name}
 %{_libdir}/%{base_name}/Resource
 %dir %{_libdir}/%{base_name}/Reader
 %{_libdir}/%{base_name}/Reader/help
 %{_libdir}/%{base_name}/Reader/AcroVersion
+%{_libdir}/%{base_name}/Reader/BeyondReader
 %{_libdir}/%{base_name}/Reader/Cert
 %{_libdir}/%{base_name}/Reader/GlobalPrefs
 %{_libdir}/%{base_name}/Reader/HowTo
-%{_libdir}/%{base_name}/Reader/Legal
+%{_libdir}/%{base_name}/Reader/IDTemplates
 %{_libdir}/%{base_name}/Reader/JavaScripts
-%{_libdir}/%{base_name}/Reader/Messages
-%{_libdir}/%{base_name}/Reader/WebSearch
+%{_libdir}/%{base_name}/Reader/Legal
+%{_libdir}/%{base_name}/Reader/Tracker
+%{_libdir}/%{base_name}/Reader/PDFSigQFormalRep.pdf
+%{_libdir}/%{base_name}/Reader/pmd.cer
+%{_libdir}/%{base_name}/Reader/%{platform}/mozilla
 %dir %{_libdir}/%{base_name}/Reader/%{platform}
 %dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins
+%dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Multimedia
 %dir %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/SPPlugins
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/bin
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/lib
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/*.api
 %attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d/*.x3d
+%attr(755,root,root) %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Multimedia/MPP
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/AcroForm
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Annotations
-%{_libdir}/%{base_name}/Reader/%{platform}/res
+%{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d/prc
 %{_desktopdir}/acroread.desktop
 %{_pixmapsdir}/*
 
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_plugindir}/*
+%attr(755,root,root) %{_browserpluginsdir}/*
 %endif
