@@ -1,3 +1,5 @@
+# TODO:
+# - upgrade to 9.1
 #
 # Conditional build:
 %bcond_with	license_agreement	# generates package
