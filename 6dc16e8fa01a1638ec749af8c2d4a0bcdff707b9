@@ -1,0 +1,6 @@
+- up to 9.1.0
+- Source0 updated
+- %install tune-ups
+- %files
+- do not STBR: needs testing!
+- fixes CVE-2009-0193, CVE-2009-0927, CVE-2009-1061, CVE-2009-1062
