@@ -1,5 +1,3 @@
-# TODO:
-# - upgrade to 9.1
 #
 # Conditional build:
 %bcond_with	license_agreement	# generates package
@@ -15,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 %define	_rel	1
-Version:	8.1.3
+Version:	9.1.0
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -24,8 +22,8 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	http://ardownload.adobe.com/pub/adobe/reader/unix/8.x/8.1.3/enu/AdobeReader_enu-%{version}-1.i486.tar.bz2
-# NoSource0-md5:	c85096f401772f435866a66ec06352f1
+Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.1/enu/AdbeRdr%{version}-1_i486linux_enu.tar.bz2
+# NoSource0-md5:	6f8279f55d57f4fa610a0e22a0eab861
 NoSource:	0
 %else
 Source1:	license-installer.sh
@@ -118,7 +116,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_browserpluginsd
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
 # note: there're also AdobeReader/Adobe/Help{,Viewer}
-cd AdobeReader/Adobe/Reader8
+cd AdobeReader/Adobe/Reader9
 cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{base_name}
 awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
@@ -127,6 +125,8 @@ awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 install Browser/%{platform}/* $RPM_BUILD_ROOT%{_browserpluginsdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
+
+cp -a Browser/HowTo $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/
 
 rm -rf $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Patch
 
@@ -168,7 +168,6 @@ fi
 %dir %{_libdir}/%{base_name}/Reader
 %{_libdir}/%{base_name}/Reader/help
 %{_libdir}/%{base_name}/Reader/AcroVersion
-%{_libdir}/%{base_name}/Reader/BeyondReader
 %{_libdir}/%{base_name}/Reader/Cert
 %{_libdir}/%{base_name}/Reader/GlobalPrefs
 %{_libdir}/%{base_name}/Reader/HowTo
