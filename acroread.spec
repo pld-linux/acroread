@@ -13,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 %define	_rel	1
-Version:	9.1.0
+Version:	9.1.1
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -22,8 +22,8 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.1/enu/AdbeRdr%{version}-1_i486linux_enu.tar.bz2
-# NoSource0-md5:	6f8279f55d57f4fa610a0e22a0eab861
+Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr%{version}-1_i486linux_enu.tar.bz2
+# NoSource0-md5:	6319d5c1e1ceff635bb3ff7a60e466e7
 NoSource:	0
 %else
 Source1:	license-installer.sh
