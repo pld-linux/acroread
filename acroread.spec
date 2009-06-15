@@ -32,6 +32,17 @@ Source1:	license-installer.sh
 Source2:	%{base_name}.desktop
 Source3:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
+# Upgrade do 9.1.2 required (no source yet):
+BuildRequires:	security(CVE-2009-0198)
+BuildRequires:	security(CVE-2009-0509)
+BuildRequires:	security(CVE-2009-0510)
+BuildRequires:	security(CVE-2009-0511)
+BuildRequires:	security(CVE-2009-0512)
+BuildRequires:	security(CVE-2009-0888)
+BuildRequires:	security(CVE-2009-0889)
+BuildRequires:	security(CVE-2009-1855)
+BuildRequires:	security(CVE-2009-1856)
+BuildRequires:	security(CVE-2009-1857)
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.357
 Requires:	openldap-libs < 2.5
