@@ -13,7 +13,7 @@ Name:		%{base_name}
 Name:		%{base_name}-installer
 %endif
 %define	_rel	1
-Version:	9.1.1
+Version:	9.1.3
 Release:	%{_rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -23,7 +23,7 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
 Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr%{version}-1_i486linux_enu.tar.bz2
-# NoSource0-md5:	6319d5c1e1ceff635bb3ff7a60e466e7
+# NoSource0-md5:	fec3eed6dfc921a6dcc4deab400e207e
 NoSource:	0
 %else
 Source1:	license-installer.sh
@@ -32,17 +32,6 @@ Source1:	license-installer.sh
 Source2:	%{base_name}.desktop
 Source3:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
-# Upgrade do 9.1.2 required (no source yet):
-BuildRequires:	security(CVE-2009-0198)
-BuildRequires:	security(CVE-2009-0509)
-BuildRequires:	security(CVE-2009-0510)
-BuildRequires:	security(CVE-2009-0511)
-BuildRequires:	security(CVE-2009-0512)
-BuildRequires:	security(CVE-2009-0888)
-BuildRequires:	security(CVE-2009-0889)
-BuildRequires:	security(CVE-2009-1855)
-BuildRequires:	security(CVE-2009-1856)
-BuildRequires:	security(CVE-2009-1857)
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.357
 Requires:	openldap-libs < 2.5
