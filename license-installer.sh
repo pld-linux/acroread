@@ -6,7 +6,7 @@ if [ "$1" = "--with" -a "$2" = "license_agreement" ]; then
 	SOURCEDIR=`rpm --define "_topdir $tmp" --eval "%{_sourcedir}"`
 	BUILDDIR=`rpm --define "_topdir $tmp" --eval "%{_builddir}"`
 	RPMDIR=`rpm --define "_topdir $tmp" --eval "%{_rpmdir}"`
-	mkdir -p $SPECDIR $SRPMDIR $RPMDIR $SRPMDIR $SOURCEDIR $BUILDDIR
+	mkdir -p $SPECDIR $SRPMDIR $RPMDIR $SOURCEDIR $BUILDDIR
 
 	if echo "$3" | grep '\.src\.rpm$' >/dev/null; then
 		(
