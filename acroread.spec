@@ -36,7 +36,7 @@ BuildRequires:	rpmbuild(macros) >= 1.357
 Requires:	openldap-libs < 2.5
 Requires:	openldap-libs >= 2.4
 %else
-Requires:	rpm-build-tools >= 0:4.4.35
+Requires:	rpm-build-tools >= 4.4.35
 %endif
 ExclusiveArch:	%{ix86}
 ExcludeArch:	i386
