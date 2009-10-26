@@ -12,9 +12,8 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-%define	_rel	1
 Version:	9.1.3
-Release:	%{_rel}%{?with_license_agreement:wla}
+Release:	2%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
