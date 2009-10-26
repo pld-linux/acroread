@@ -1,12 +1,11 @@
 #!/bin/sh
 if [ "$1" = "--with" -a "$2" = "license_agreement" ]; then
 	tmp=$(mktemp -d)
-	SPECDIR=`rpm --define "_topdir $tmp" --eval "%{_specdir}"`
 	SRPMDIR=`rpm --define "_topdir $tmp" --eval "%{_srcrpmdir}"`
-	SOURCEDIR=`rpm --define "_topdir $tmp" --eval "%{_sourcedir}"`
 	BUILDDIR=`rpm --define "_topdir $tmp" --eval "%{_builddir}"`
 	RPMDIR=`rpm --define "_topdir $tmp" --eval "%{_rpmdir}"`
-	mkdir -p $SPECDIR $SRPMDIR $RPMDIR $SOURCEDIR $BUILDDIR
+	PACKAGEDIR="$tmp/packages/acroread"
+	mkdir -p $SRPMDIR $RPMDIR $BUILDDIR $PACKAGEDIR
 
 	if echo "$3" | grep '\.src\.rpm$' >/dev/null; then
 		(
@@ -16,20 +15,20 @@ if [ "$1" = "--with" -a "$2" = "license_agreement" ]; then
 		else
 			cp -f "$3" $SRPMDIR
 		fi
-		rpm2cpio `basename "$3"` | ( cd $SPECDIR; cpio -i @BASE_NAME@.spec )
+		rpm2cpio `basename "$3"` | ( cd $PACKAGEDIR; cpio -i @BASE_NAME@.spec )
 		if [ '@COPYSOURCES@' != '@'COPYSOURCES'@' ]; then
-			rpm2cpio `basename "$3"` | ( cd $SOURCEDIR; cpio -i @COPYSOURCES@ )
+			rpm2cpio `basename "$3"` | ( cd $PACKAGEDIR; cpio -i @COPYSOURCES@ )
 		fi
 	   	)
 	else
-		cp -i "$3" $SPECDIR || exit 1
+		cp -i "$3" $PACKAGEDIR || exit 1
 		if [ '@COPYSOURCES@' != '@'COPYSOURCES'@' ]; then
 			for i in @COPYSOURCES@; do
-				cp -i @DATADIR@/$i $SOURCEDIR/$i || exit 1
+				cp -i @DATADIR@/$i $PACKAGEDIR/$i || exit 1
 			done
 		fi
 	fi
-	( cd $SPECDIR
+	( cd $PACKAGEDIR
 	nd=
 	if [ '@USE_DISTFILES@' = 'no' ]; then
 		nd=-nd
