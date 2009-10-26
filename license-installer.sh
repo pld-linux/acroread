@@ -33,7 +33,7 @@ if [ "$1" = "--with" -a "$2" = "license_agreement" ]; then
 	if [ '@USE_DISTFILES@' = 'no' ]; then
 		nd=-nd
 	fi
-	/usr/bin/builder --define _topdir $tmp $nd -nm -nc -ncs --with license_agreement --target @TARGET_CPU@ @BASE_NAME@.spec
+	/usr/bin/builder --define _topdir $tmp --define _binary_payload w1.gzdio $nd -nm -nc -ncs --with license_agreement --target @TARGET_CPU@ @BASE_NAME@.spec
 	if [ "$?" -ne 0 ]; then
 		exit 2
 	fi
