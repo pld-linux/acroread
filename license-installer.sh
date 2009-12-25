@@ -4,7 +4,7 @@ if [ "$1" = "--with" -a "$2" = "license_agreement" ]; then
 	SRPMDIR=`rpm --define "_topdir $tmp" --eval "%{_srcrpmdir}"`
 	BUILDDIR=`rpm --define "_topdir $tmp" --eval "%{_builddir}"`
 	RPMDIR=`rpm --define "_topdir $tmp" --eval "%{_rpmdir}"`
-	PACKAGEDIR="$tmp/packages/acroread"
+	PACKAGEDIR="$tmp/packages/@BASE_NAME@"
 	mkdir -p $SRPMDIR $RPMDIR $BUILDDIR $PACKAGEDIR
 
 	if echo "$3" | grep '\.src\.rpm$' >/dev/null; then
