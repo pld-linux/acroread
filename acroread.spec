@@ -35,6 +35,7 @@ Source3:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.357
+Requires:	iconv
 Requires:	openldap-libs < 2.5
 Requires:	openldap-libs >= 2.4
 %else
