@@ -3,7 +3,7 @@
 %bcond_with	license_agreement	# generates package
 #
 %define		base_name	acroread
-%define		rel		2
+%define		rel		3
 Summary:	Adobe Acrobat Reader
 Summary(pl.UTF-8):	Adobe Acrobat Reader - czytnik plików PDF
 Summary(ru.UTF-8):	Программа для чтения документов в формате PDF от Adobe
@@ -15,7 +15,7 @@ Name:		%{base_name}-installer
 %endif
 Version:	9.3
 Release:	%{rel}%{?with_license_agreement:wla}
-Epoch:		2
+Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
 # - not distributable on public sites (only linking to adobe.com permitted)
