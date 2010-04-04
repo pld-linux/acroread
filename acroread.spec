@@ -15,7 +15,7 @@ Name:		%{base_name}-installer
 %endif
 Version:	9.3
 Release:	%{rel}%{?with_license_agreement:wla}
-Epoch:		1
+Epoch:		2
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
 # in short:
 # - not distributable on public sites (only linking to adobe.com permitted)
@@ -27,7 +27,7 @@ Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr%{v
 NoSource:	0
 %else
 Source1:	http://svn.pld-linux.org/svn/license-installer/license-installer.sh
-# Source1-md5:	4fb1600353dd57fe088e0b12fb0ecac2
+# Source1-md5:	329c25f457fea66ec502b7ef70cb9ede
 %endif
 # please update @COPYSOURCES@ below if you add more Sources or Patches.
 Source2:	%{base_name}.desktop
@@ -39,7 +39,8 @@ Requires:	iconv
 Requires:	openldap-libs < 2.5
 Requires:	openldap-libs >= 2.4
 %else
-Requires:	rpm-build-tools >= 4.4.35
+Requires:	rpm-build-tools >= 4.4.37
+Requires:	rpm-build-macros >= 1.544
 %endif
 ExclusiveArch:	%{ix86}
 ExcludeArch:	i386
