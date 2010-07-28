@@ -39,8 +39,8 @@ Requires:	iconv
 Requires:	openldap-libs < 2.5
 Requires:	openldap-libs >= 2.4
 %else
-Requires:	rpm-build-macros >= 1.544
 Requires:	rpm-build-tools >= 4.4.37
+Requires:	rpmbuild(macros) >= 1.544
 %endif
 ExclusiveArch:	%{ix86}
 ExcludeArch:	i386
