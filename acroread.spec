@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	license_agreement	# generates package
+%bcond_without	license_agreement	# generates package
 #
 %define		base_name	acroread
 %define		rel		1
@@ -13,7 +13,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	9.3.2
+Version:	9.3.4
 Release:	%{rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -23,11 +23,11 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
 Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr%{version}-1_i486linux_enu.tar.bz2
-# NoSource0-md5:	57c6e2f628b34dc950f834e10f553504
+# NoSource0-md5:	fc5acf558e2817f2c633a075a398b26b
 NoSource:	0
 %else
 Source1:	http://svn.pld-linux.org/svn/license-installer/license-installer.sh
-# Source1-md5:	329c25f457fea66ec502b7ef70cb9ede
+# Source1-md5:	e84250aa2fef6cdbf8f0890516eef43d
 %endif
 # please update @COPYSOURCES@ below if you add more Sources or Patches.
 Source2:	%{base_name}.desktop
