@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without	license_agreement	# generates package
+%bcond_with	license_agreement	# generates package
 #
 %define		base_name	acroread
 %define		rel		1
