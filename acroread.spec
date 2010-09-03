@@ -35,6 +35,7 @@ Source3:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.357
+Requires:	ca-certificates >= 20080809-4
 Requires:	iconv
 Requires:	openldap-libs < 2.5
 Requires:	openldap-libs >= 2.4
@@ -135,7 +136,7 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Patch
 
 ln -sf /usr/lib/liblber-2.4.so.2 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/liblber.so
 ln -sf /usr/lib/libldap-2.4.so.2 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/libldap.so
-ln -sf /usr/share/ssl/ca-bundle.crt $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Cert/curl-ca-bundle.crt
+ln -sf /etc/certs/ca-certificates.crt $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Cert/curl-ca-bundle.crt
 
 chmod a-x $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/*.so.*
 %endif
