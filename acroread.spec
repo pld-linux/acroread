@@ -27,7 +27,7 @@ Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr9.4
 NoSource:	0
 %else
 Source1:	http://svn.pld-linux.org/svn/license-installer/license-installer.sh
-# Source1-md5:	e84250aa2fef6cdbf8f0890516eef43d
+# Source1-md5:	329c25f457fea66ec502b7ef70cb9ede
 %endif
 # please update @COPYSOURCES@ below if you add more Sources or Patches.
 Source2:	%{base_name}.desktop
