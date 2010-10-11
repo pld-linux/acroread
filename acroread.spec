@@ -23,7 +23,7 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
 Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr9.4-1_i486linux_enu.tar.bz2
-# Source0-md5:	dd7a47695fb149c09dcda65c754708cb
+# NoSource0-md5:	dd7a47695fb149c09dcda65c754708cb
 NoSource:	0
 %else
 Source1:	http://svn.pld-linux.org/svn/license-installer/license-installer.sh
