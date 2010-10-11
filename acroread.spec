@@ -13,7 +13,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	9.3.4
+Version:	9.4.0
 Release:	%{rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -22,8 +22,8 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr%{version}-1_i486linux_enu.tar.bz2
-# NoSource0-md5:	fc5acf558e2817f2c633a075a398b26b
+Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr9.4-1_i486linux_enu.tar.bz2
+# Source0-md5:	dd7a47695fb149c09dcda65c754708cb
 NoSource:	0
 %else
 Source1:	http://svn.pld-linux.org/svn/license-installer/license-installer.sh
@@ -54,6 +54,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautostrip	.*\.api
 %define		_noautoprov	libcrypto\.so.* libssl\.so.* libcurl\.so.* libicu.* libstdc++\.so.* libgcc_s\.so.*
 %define		_noautoreq	%{_noautoprov} '^lib.*\.so$' '^lib.*\(VERSION\)$'
+%define         no_install_post_check_so        1
+
 
 %description
 Adobe(R) Reader(R) is free software that lets you view and print PDF
