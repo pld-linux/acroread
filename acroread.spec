@@ -3,7 +3,7 @@
 %bcond_with	license_agreement	# generates package
 #
 %define		base_name	acroread
-%define		rel		1
+%define		rel		2
 Summary:	Adobe Acrobat Reader
 Summary(pl.UTF-8):	Adobe Acrobat Reader - czytnik plików PDF
 Summary(ru.UTF-8):	Программа для чтения документов в формате PDF от Adobe
@@ -55,7 +55,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoprov	libcrypto\.so.* libssl\.so.* libcurl\.so.* libicu.* libstdc++\.so.* libgcc_s\.so.*
 %define		_noautoreq	%{_noautoprov} '^lib.*\.so$' '^lib.*\(VERSION\)$'
 %define         no_install_post_check_so        1
-
+%define		skip_post_check_so libWRServices.so.3.1 libadobelinguistic.so.3.2.0 libauthplay.so.0.0.0
 
 %description
 Adobe(R) Reader(R) is free software that lets you view and print PDF
