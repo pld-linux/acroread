@@ -3,7 +3,7 @@
 %bcond_with	license_agreement	# generates package
 #
 %define		base_name	acroread
-%define		rel		2
+%define		rel		3
 Summary:	Adobe Acrobat Reader
 Summary(pl.UTF-8):	Adobe Acrobat Reader - czytnik plików PDF
 Summary(ru.UTF-8):	Программа для чтения документов в формате PDF от Adobe
@@ -118,28 +118,33 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/%{base_name}
 
 %else
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name},%{_browserpluginsdir}} \
-	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{base_name}/bin} \
+	$RPM_BUILD_ROOT{%{_browserpluginsdir},%{_desktopdir},%{_pixmapsdir}}
 
-# note: there're also AdobeReader/Adobe/Help{,Viewer}
 cd AdobeReader/Adobe/Reader9
-cp -a Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{base_name}
+cp -a Browser Reader Resource $RPM_BUILD_ROOT%{_libdir}/%{base_name}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Browser/install_browser_plugin
 awk -v INSTDIR=%{_libdir}/%{base_name}/Reader \
 	'/^install_dir=/ {print "install_dir="INSTDIR; next} \
 	{print}' \
-	bin/%{base_name} > $RPM_BUILD_ROOT%{_bindir}/%{base_name}
-install Browser/%{platform}/* $RPM_BUILD_ROOT%{_browserpluginsdir}
+	bin/%{base_name} > $RPM_BUILD_ROOT%{_libdir}/%{base_name}/bin/%{base_name}
+
+# IMPORTANT NOTE: Here symlinks must be used instead of moving parts of tree
+# for compatibility with other binary-only Adobe software (like AIR).
+# This one is required to find Reader tree (relative to symlink target)...
+ln -sf %{_libdir}/%{base_name}/bin/%{base_name} $RPM_BUILD_ROOT%{_bindir}/%{base_name}
+# ...and nppdf plugin is expected in Browser subdir...
+# ...so just symlink it to be used as browsers plugin.
+ln -sf %{_libdir}/%{base_name}/Browser/%{platform}/nppdf.so $RPM_BUILD_ROOT%{_browserpluginsdir}/nppdf.so
+
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
-
-cp -a Browser/HowTo $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/
-
-rm -rf $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Patch
 
 ln -sf /usr/lib/liblber-2.4.so.2 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/liblber.so
 ln -sf /usr/lib/libldap-2.4.so.2 $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/libldap.so
 ln -sf /etc/certs/ca-certificates.crt $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/Cert/curl-ca-bundle.crt
 
+# don't generate dependencies for internal libs
 chmod a-x $RPM_BUILD_ROOT%{_libdir}/%{base_name}/Reader/%{platform}/lib/*.so.*
 %endif
 
@@ -168,15 +173,17 @@ fi
 %{_datadir}/%{base_name}
 %else
 %doc AdobeReader/ReadMe.htm
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/acroread
 %dir %{_libdir}/%{base_name}
-%{_libdir}/%{base_name}/Resource
+%dir %{_libdir}/%{base_name}/Browser
+%dir %{_libdir}/%{base_name}/Browser/%{platform}
+%attr(755,root,root) %{_libdir}/%{base_name}/Browser/%{platform}/nppdf.so
+%{_libdir}/%{base_name}/Browser/HowTo
 %dir %{_libdir}/%{base_name}/Reader
 %{_libdir}/%{base_name}/Reader/help
 %{_libdir}/%{base_name}/Reader/AcroVersion
 %{_libdir}/%{base_name}/Reader/Cert
 %{_libdir}/%{base_name}/Reader/GlobalPrefs
-%{_libdir}/%{base_name}/Reader/HowTo
 %{_libdir}/%{base_name}/Reader/IDTemplates
 %{_libdir}/%{base_name}/Reader/JavaScripts
 %{_libdir}/%{base_name}/Reader/Legal
@@ -197,10 +204,13 @@ fi
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/AcroForm
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins/Annotations
 %{_libdir}/%{base_name}/Reader/%{platform}/plug_ins3d/prc
+%{_libdir}/%{base_name}/Resource
+%dir %{_libdir}/%{base_name}/bin
+%attr(755,root,root) %{_libdir}/%{base_name}/bin/acroread
 %{_desktopdir}/acroread.desktop
-%{_pixmapsdir}/*
+%{_pixmapsdir}/acroread.png
 
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_browserpluginsdir}/*
+%attr(755,root,root) %{_browserpluginsdir}/nppdf.so
 %endif
