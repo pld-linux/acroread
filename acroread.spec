@@ -3,7 +3,7 @@
 %bcond_with	license_agreement	# generates package
 #
 %define		base_name	acroread
-%define		rel		3
+%define		rel		1
 Summary:	Adobe Acrobat Reader
 Summary(pl.UTF-8):	Adobe Acrobat Reader - czytnik plików PDF
 Summary(ru.UTF-8):	Программа для чтения документов в формате PDF от Adobe
@@ -13,7 +13,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	9.4.2
+Version:	9.4.7
 Release:	%{rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -22,8 +22,8 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 # - distribution on CD requires signing Distribution Agreement (see URL above)
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
-Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr9.4.2-1_i486linux_enu.tar.bz2
-# NoSource0-md5:	307aaaf22e8c08958927dfabb0f4d745
+Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr9.4.7-1_i486linux_enu.tar.bz2
+# NoSource0-md5:	f8972552e4f10116c03925a04ab1b86f
 NoSource:	0
 %else
 Source1:	http://svn.pld-linux.org/svn/license-installer/license-installer.sh
