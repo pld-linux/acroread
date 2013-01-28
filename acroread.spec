@@ -13,7 +13,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	9.5.1
+Version:	9.5.3
 Release:	%{rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -23,7 +23,7 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
 Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr%{version}-1_i486linux_enu.tar.bz2
-# NoSource0-md5:	e753016e8f11cdeaabcc576a7a320af3
+# NoSource0-md5:	aeb7cdb8b675b3e01e32233d167fb1eb
 NoSource:	0
 %else
 Source1:	http://svn.pld-linux.org/svn/license-installer/license-installer.sh
@@ -53,7 +53,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautostrip	.*\.api
 %define		_noautoprov	libcrypto\.so.* libssl\.so.* libcurl\.so.* libicu.* libstdc++\.so.* libgcc_s\.so.*
-%define		_noautoreq	%{_noautoprov} '^lib.*\.so$' '^lib.*\(VERSION\)$'
+%define		_noautoreq	%{_noautoprov} '^lib.*\.so$' '^lib.*\\(VERSION\\)$'
 %define         no_install_post_check_so        1
 %define		skip_post_check_so libWRServices.so.3.1 libadobelinguistic.so.3.2.0 libauthplay.so.0.0.0
 
