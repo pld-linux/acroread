@@ -53,9 +53,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautostrip	.*\.api
 %define		_noautoprov	libcrypto\.so.* libssl\.so.* libcurl\.so.* libicu.* libstdc++\.so.* libgcc_s\.so.*
+%if "%{_rpmversion}" >= "5.0"
 %define		_noautoreq	%{_noautoprov} '^lib.*\.so$' '^lib.*\\(VERSION\\)$'
+%else
+%define		_noautoreq	%{_noautoprov} '^lib.*\.so$' '^lib.*\(VERSION\)$'
+%endif
 %define         no_install_post_check_so        1
-%define		skip_post_check_so libWRServices.so.3.1 libadobelinguistic.so.3.2.0 libauthplay.so.0.0.0
 
 %description
 Adobe(R) Reader(R) is free software that lets you view and print PDF
