@@ -13,7 +13,7 @@ Name:		%{base_name}
 %else
 Name:		%{base_name}-installer
 %endif
-Version:	9.5.3
+Version:	9.5.4
 Release:	%{rel}%{?with_license_agreement:wla}
 Epoch:		1
 License:	distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)
@@ -23,7 +23,7 @@ License:	distribution restricted (http://www.adobe.com/products/acrobat/distribu
 Group:		X11/Applications/Graphics
 %if %{with license_agreement}
 Source0:	ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/%{version}/enu/AdbeRdr%{version}-1_i486linux_enu.tar.bz2
-# NoSource0-md5:	aeb7cdb8b675b3e01e32233d167fb1eb
+# NoSource0-md5:	9fd583a6ebf000cae507f128a58e79b5
 NoSource:	0
 %else
 Source1:	http://svn.pld-linux.org/svn/license-installer/license-installer.sh
