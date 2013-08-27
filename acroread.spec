@@ -35,6 +35,8 @@ Source3:	%{base_name}.png
 URL:		http://www.adobe.com/products/acrobat/
 %if %{with license_agreement}
 BuildRequires:	rpmbuild(macros) >= 1.357
+# to force 32bit iconv
+Requires:	%{_libdir}/gconv
 Requires:	ca-certificates >= 20080809-4
 Requires:	iconv
 Requires:	openldap-libs < 2.5
